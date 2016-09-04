@@ -2,7 +2,7 @@ package com.shop.mapper;
 
 import java.util.List;
 
-import com.mapper.common.MyMapper;
+import com.common.mapper.MyMapper;
 import com.shop.dto.UserInfo;
 import com.shop.model.TTUser;
 
