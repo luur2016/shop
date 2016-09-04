@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shop.mapper.TTUserMapper">
+	<resultMap type="com.shop.dto.UserInfo" id="userInfo">
+		<id property="id" column="id"/>
+		<result property="name" column="name"/>
+		<result property="age" column="age"/>
+		<result property="sex" column="sex"/>
+		<result property="birthday" column="birthday"/>
+		<result property="address" column="address"/>
+	</resultMap>
+	
+	<select id="getAllUserInfo" resultMap="userInfo">
+		select tt_user.id,name,age,case sex when '0' then '男' when '1' then '女' end as sex,
+		birthday,address from tt_user,tt_address 
+		where tt_user.address_id = tt_address.id
+	</select>
+</mapper>
