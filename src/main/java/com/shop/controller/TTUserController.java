@@ -3,8 +3,8 @@ package com.shop.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -12,7 +12,7 @@ import com.shop.dto.UserInfo;
 import com.shop.model.TTUser;
 import com.shop.service.TTUserService;
 
-@RestController
+@Controller
 public class TTUserController extends BaseController{
 	
 	@Autowired
@@ -28,4 +28,7 @@ public class TTUserController extends BaseController{
 		PageHelper.startPage(1,1);
 		return new PageInfo<UserInfo>(ttUserService.getAllUserInfo());
 	}
+	
+	@RequestMapping("/")
+	public String index(){return "index";}
 }
