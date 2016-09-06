@@ -44,15 +44,21 @@
     </div>
     <div class="avatar"><img th:src="@{/admin/templates/default/images/login/admin.png}" alt="" /></div>
     <div class="submit"> <span>
-      <div class="code">
-        <div class="arrow"></div>
-        <div class="code-img"><img src="" name="codeimage" id="codeimage" border="0"/></div>
-        <a href="JavaScript:void(0);" id="hide" class="close" title="关闭"><i></i></a><a href="" class="change" title="看不清,点击更换验证码"><i></i></a> </div>
-      <input name="captcha" type="text" class="input-code" id="captcha" placeholder="输入验证" pattern="[A-z0-9]{4}" title="验证码为4个字符" autocomplete="off" value="" />
-      </span> <span>
-      <input name="nchash" type="hidden" value="d7ca7dae" />
-      <input name="" class="input-button btn-submit" type="button" value="登录" />
-      </span> </div>
+	      <div class="code">
+	        <div class="arrow"></div>
+	        <div class="code-img">
+	        <img th:src="@{/admin/yanzhengma}" name="codeimage" id="codeimage" border="0"/>
+	        </div>
+		        <a href="JavaScript:void(0);" id="hide" class="close" title="关闭"><i></i></a>
+		        <a href="#" onclick="changeYanzhengma()" class="change" title="看不清,点击更换验证码"><i></i></a> 
+	      </div>
+	      <input name="captcha" type="text" class="input-code" id="captcha" placeholder="输入验证" pattern="[A-z0-9]{4}" title="验证码为4个字符" autocomplete="off" value="" />
+	      </span> 
+	      <span>
+		      <input name="nchash" type="hidden" value="d7ca7dae" />
+		      <input name="" class="input-button btn-submit" type="button" value="登录" />
+	      </span> 
+      </div>
       <div class="submit2"></div>
   </form>
   <div class="bottom">
@@ -124,6 +130,10 @@ $(function(){
         }
     });
 });
+
+function changeYanzhengma(){
+	$("#codeimage").attr("src","/admin/yanzhengma?t="+ Math.random())
+}
 
 </script>
 </body>
