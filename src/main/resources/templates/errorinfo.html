@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"/>
+<title>错误页面</title>
+<link th:href="@{/admin/templates/default/css/skin_1.css}" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title">
+      <h3>系统消息</h3>
+    </div>
+  </div>
+  <div class="fixed-empty"></div>
+  <table class="table tb-type2 msg">
+    <tbody class="noborder">
+      <tr>
+        <td rowspan="5" class="msgbg"></td>
+        <td class="tip" th:text="${info}"></td>
+      </tr>
+            <tr>
+        <td class="tip2">若不选择将自动跳转</td>
+      </tr>
+      <tr>
+        <td>          
+       		<a th:href="@{${url}}" class="btns"><span>返回上一页</span></a> 
+          	<script th:inline="javascript">
+          		function jump(count) {
+	                window.setTimeout(function(){
+	                    count--;
+	                    if(count > 0) {
+	                        console.log(count)
+	                        jump(count);
+	                    } else {
+	                        location.href=[[@{${url}}]];
+	                    }
+	                }, 1000);
+	            }
+          		jump(2);
+          	</script>
+         </td>
+      </tr>
+          </tbody>
+  </table>
+</div>
+</body>
+</html>

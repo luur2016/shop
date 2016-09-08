@@ -26,9 +26,12 @@
     <h2>平台管理中心</h2>
     <h6>商城&nbsp;&nbsp;|&nbsp;&nbsp;资讯&nbsp;&nbsp;|&nbsp;&nbsp;圈子&nbsp;&nbsp;|&nbsp;&nbsp;微商城&nbsp;&nbsp;|&nbsp;&nbsp;统计</h6>
   </div>
-  <form method="post" id="form_login">
-    <input type='hidden' name='formhash' value='OOkf5fGUDZzxKNUH-_gFt7COWrGbQ0B' />    <input type="hidden" name="form_submit" value="ok" />
-    <input type="hidden" name="SiteUrl" id="SiteUrl" value="http://localhost:8090/shopnc/shop" />
+  <form method="post" id="form_login" th:action="@{/admin/login}">
+	<!--     
+	<input type='hidden' name='formhash' value='OOkf5fGUDZzxKNUH-_gFt7COWrGbQ0B' />    
+    <input type="hidden" name="form_submit" value="ok" />
+    <input type="hidden" name="SiteUrl" id="SiteUrl" value="http://localhost:8090/shopnc/shop" /> 
+   	-->
     <div class="lock-holder">
       <div class="form-group pull-left input-username">
         
@@ -43,7 +46,8 @@
       </div>
     </div>
     <div class="avatar"><img th:src="@{/admin/templates/default/images/login/admin.png}" alt="" /></div>
-    <div class="submit"> <span>
+    <div class="submit"> 
+    	<span>
 	      <div class="code">
 	        <div class="arrow"></div>
 	        <div class="code-img">
@@ -52,7 +56,8 @@
 		        <a href="JavaScript:void(0);" id="hide" class="close" title="关闭"><i></i></a>
 		        <a href="#" onclick="changeYanzhengma()" class="change" title="看不清,点击更换验证码"><i></i></a> 
 	      </div>
-	      <input name="captcha" type="text" class="input-code" id="captcha" placeholder="输入验证" pattern="[A-z0-9]{4}" title="验证码为4个字符" autocomplete="off" value="" />
+	      <input name="captcha" type="text" class="input-code" id="captcha" placeholder="输入验证" pattern="[A-z0-9]{4}" 
+	      				title="验证码为4个字符" autocomplete="off" value=""/>
 	      </span> 
 	      <span>
 		      <input name="nchash" type="hidden" value="d7ca7dae" />
@@ -62,8 +67,10 @@
       <div class="submit2"></div>
   </form>
   <div class="bottom">
+ 
   </div>
 </div>
+
 <script>
 $(function(){
         $.supersized({
@@ -116,7 +123,11 @@ $(function(){
                       $('.submit').hide();
                       $('.submit2').html('<div class="progress"><div class="progress-bar progress-bar-success" aria-valuetransitiongoal="100"></div></div>');
                       $('.progress .progress-bar').progressbar({
-                          done : function() {$('#form_login').submit();}
+                          done : function() {
+                        	  //$("#captcha")
+                        	  //alert(${session.YZM})
+                        	  $('#form_login').submit();
+                          }
                       }); 
               },
           300);
@@ -134,7 +145,6 @@ $(function(){
 function changeYanzhengma(){
 	$("#codeimage").attr("src","/admin/yanzhengma?t="+ Math.random())
 }
-
 </script>
 </body>
 </html>
