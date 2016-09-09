@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shop.mapper.admin.AdminMapper">
+	<resultMap type="com.shop.model.admin.Admin" id="adminInfo">
+		<id property="admin_id" column="admin_id"/>
+		<result property="admin_name" column="admin_name"/>
+		<result property="admin_password" column="admin_password"/>
+		<result property="admin_login_time" column="admin_login_time"/>
+		<result property="admin_login_num" column="admin_login_num"/>
+		<result property="admin_is_super" column="admin_is_super"/>
+		<result property="admin_gid" column="admin_gid"/>
+	</resultMap>
+	
+	<select id="login" resultMap="adminInfo">
+		select * from club_admin where admin_name = #{username} and admin_password=#{password}
+	</select>
+</mapper>
