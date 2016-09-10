@@ -11,6 +11,6 @@ public class ConsoleController extends BaseController{
 	
 	@RequestMapping("")
 	public String index(){
-		return "admin/console/welcome";
+		return "admin/welcome";
 	}
 }

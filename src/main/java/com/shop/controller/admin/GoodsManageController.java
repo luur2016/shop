@@ -9,6 +9,6 @@ public class GoodsManageController {
 
 	@RequestMapping("")
 	public String index(){
-		return "admin/console/goodsmanage/goods_manage";
+		return "admin/goodsmanage/goods_manage";
 	}
 }

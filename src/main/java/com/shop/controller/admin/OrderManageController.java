@@ -9,6 +9,6 @@ public class OrderManageController {
 	
 	@RequestMapping("")
 	public String index(){
-		return "admin/console/ordermanage/realgoodsorder";
+		return "admin/ordermanage/realgoodsorder";
 	}
 }

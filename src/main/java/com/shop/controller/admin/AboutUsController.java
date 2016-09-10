@@ -9,6 +9,6 @@ public class AboutUsController {
 
 	@RequestMapping("")
 	public String index(){
-		return "admin/console/about_us";
+		return "admin/about_us";
 	}
 }

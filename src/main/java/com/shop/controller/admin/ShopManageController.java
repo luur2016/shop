@@ -9,6 +9,6 @@ public class ShopManageController {
 
 	@RequestMapping("")
 	public String index(){
-		return "admin/console/shopmanage/shop_manage";
+		return "admin/shopmanage/shop_manage";
 	}
 }

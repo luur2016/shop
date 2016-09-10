@@ -9,6 +9,6 @@ public class MemberManageController {
 	
 	@RequestMapping("")
 	public String index(){
-		return "admin/console/membermanage/member_manage";
+		return "admin/membermanage/member_manage";
 	}
 }

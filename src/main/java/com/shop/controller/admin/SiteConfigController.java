@@ -9,6 +9,6 @@ public class SiteConfigController {
 
 	@RequestMapping("")
 	public String index(){
-		return "admin/console/siteconfig/site_config";
+		return "admin/siteconfig/site_config";
 	}
 }
