@@ -1,0 +1,229 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge;chrome=1" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>测试站点</title>
+<script type="text/javascript" th:src="@{/data/resource/js/jquery.js}"></script>
+<script type="text/javascript" th:src="@{/data/resource/js/jquery.validation.min.js}"></script>
+<script type="text/javascript" th:src="@{/data/resource/js/admincp.js}"></script>
+<script type="text/javascript" th:src="@{/data/resource/js/jquery.cookie.js}"></script>
+<script type="text/javascript" th:src="@{/data/resource/js/common.js}" charset="utf-8"></script>
+<link th:href="@{/admin/templates/default/css/skin_1.css}" rel="stylesheet" type="text/css" id="cssfile2" />
+<link th:href="@{/data/resource/js/perfect-scrollbar.min.css}" rel="stylesheet" type="text/css" />
+<link th:href="@{/admin/templates/default/css/font/font-awesome/css/font-awesome.min.css}" rel="stylesheet" />
+<!--[if IE 7]>
+  <link rel="stylesheet" href="http://localhost:8090/shopnc/admin/templates/default/css/font/font-awesome/css/font-awesome-ie7.min.css">
+<![endif]-->
+<script type="text/javascript" th:src="@{/data/resource/js/perfect-scrollbar.min.js}"></script>
+
+<script type="text/javascript">
+SITEURL = 'http://localhost:8090/shopnc/shop';
+RESOURCE_SITE_URL = 'http://localhost:8090/shopnc/data/resource';
+MICROSHOP_SITE_URL = 'http://localhost:8090/shopnc/microshop';
+CIRCLE_SITE_URL = 'http://localhost:8090/shopnc/circle';
+ADMIN_TEMPLATES_URL = 'http://localhost:8090/shopnc/admin/templates/default';
+LOADING_IMAGE = "http://localhost:8090/shopnc/admin/templates/default/images/loading.gif";
+//换肤
+cookie_skin = $.cookie("MyCssSkin");
+if (cookie_skin) {
+	$('#cssfile2').attr("href","http://localhost:8090/shopnc/admin/templates/default/css/"+ cookie_skin +".css");
+}
+</script>
+</head>
+<body>
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title">
+      <h3>会员管理</h3>
+      <ul class="tab-base">
+        <li><a href="JavaScript:void(0);" class="current"><span>管理</span></a></li>
+        <li><a href="" ><span>新增</span></a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="fixed-empty"></div>
+  <form method="get" name="formSearch" id="formSearch">
+    <input type="hidden" value="member" name="act"/>
+    <input type="hidden" value="member" name="op"/>
+    <table class="tb-type1 noborder search">
+      <tbody>
+        <tr>
+          <td><select name="search_field_name" >
+              <option  value="member_name">会员</option>
+              <option  value="member_email">电子邮箱</option>
+               <!--运维舫 手机号码-->
+               <option  value="member_mobile">手机号码</option>
+               
+              <option  value="member_truename">真实姓名</option>
+            </select></td>
+          <td><input type="text" value="" name="search_field_value" class="txt" /></td>
+          <td><select name="search_sort" >
+              <option value="">排序</option>
+              <option  value="member_login_time desc">最后登录</option>
+              <option  value="member_login_num desc">登录次数</option>
+            </select></td>
+          <td><select name="search_state" >
+              <option selected='selected' value="">会员状态</option>
+              <option  value="no_informallow">禁止举报</option>
+              <option  value="no_isbuy">禁止购买</option>
+              <option  value="no_isallowtalk">禁止发表言论</option>
+              <option  value="no_memberstate">禁止登录</option>
+            </select></td>
+          <td><select name="search_grade" >
+              <option value='-1'>会员级别</option>
+                            	              	<option  value="0">V0</option>
+              	              	<option  value="1">V1</option>
+              	              	<option  value="2">V2</option>
+              	              	<option  value="3">A9</option>
+              	                          </select></td> 	 	
+          <td><a href="javascript:void(0);" id="ncsubmit" class="btn-search " title="查询">&nbsp;</a>
+            </td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
+  <table class="table tb-type2" id="prompt">
+    <tbody>
+      <tr class="space odd">
+        <th colspan="12"><div class="title">
+            <h5>操作提示</h5>
+            <span class="arrow"></span></div></th>
+      </tr>
+      <tr>
+        <td><ul>
+            <li>通过会员管理，你可以进行查看、编辑会员资料等操作</li>
+            <li>你可以根据条件搜索会员，然后选择相应的操作</li>
+          </ul></td>
+      </tr>
+    </tbody>
+  </table>
+  <form method="post" id="form_member">
+    <input type="hidden" name="form_submit" value="ok" />
+    <table class="table tb-type2 nobdb">
+      <thead>
+        <tr class="thead">
+          <th>&nbsp;</th>
+          <th colspan="2">会员</th>
+          <th class="align-center"><span fieldname="logins" nc_type="order_by">登录次数</span></th>
+          <th class="align-center"><span fieldname="last_login" nc_type="order_by">最后登录</span></th>
+          <th class="align-center">积分</th>
+          <th class="align-center">预存款</th>
+          <th class="align-center">经验值</th>
+          <th class="align-center">级别</th>
+          <th class="align-center">登录</th>
+          <th class="align-center">操作</th>
+        </tr>
+      </thead>
+      <tbody>
+                        <tr class="hover member">
+          <td class="w24"><input type="checkbox" name='del_id[]' value="3" class="checkitem"/></td>
+          <td class="w48 picture"><div class="size-44x44"><span class="thumb size-44x44"><i></i><img src="http://localhost:8090/shopnc/data/upload/shop/common/default_user_portrait.gif?0.33789700 1473521593"  onload="javascript:DrawImage(this,44,44);"/></span></div></td>
+          <td><p class="name"><strong>luur123</strong>(真实姓名: )</p>
+            <p class="smallfont">注册时间:&nbsp;2016-09-02 00:56:58</p>
+            
+              <div class="im"><span class="email" >
+                                <a href="mailto:luur@sina.cn" class=" yes" title="电子邮箱:luur@sina.cn">luur@sina.cn</a>luur@sina.cn</span>
+                                                                <!--运维舫 显示手机号码-->
+                             </div></td>
+          <td class="align-center">8</td>
+          <td class="w150 align-center"><p>2016-09-02 06:45:31</p>
+            <p></p></td>
+          <td class="align-center">76</td>
+          <td class="align-center"><p>可用:&nbsp;<strong class="red">0.00</strong>&nbsp;元</p>
+            <p>冻结:&nbsp;<strong class="red">0.00</strong>&nbsp;元</p>
+          </td>
+          <td class="align-center">139</td>
+          <td class="align-center">V0</td>
+          <td class="align-center">允许</td>
+          <td class="align-center"><a href="">编辑</a> | <a href="">通知</a></td>
+        </tr>
+                <tr class="hover member">
+          <td class="w24"><input type="checkbox" name='del_id[]' value="2" class="checkitem"/></td>
+          <td class="w48 picture"><div class="size-44x44"><span class="thumb size-44x44"><i></i><img src="http://localhost:8090/shopnc/data/upload/shop/common/default_user_portrait.gif?0.33792500 1473521593"  onload="javascript:DrawImage(this,44,44);"/></span></div></td>
+          <td><p class="name"><strong>luur</strong>(真实姓名: )</p>
+            <p class="smallfont">注册时间:&nbsp;2016-09-01 01:00:10</p>
+            
+              <div class="im"><span class="email" >
+                                <a href="mailto:nmtt@163.com" class=" yes" title="电子邮箱:nmtt@163.com">nmtt@163.com</a>nmtt@163.com</span>
+                                                                <!--运维舫 显示手机号码-->
+                             </div></td>
+          <td class="align-center">3</td>
+          <td class="w150 align-center"><p>2016-09-02 00:56:18</p>
+            <p></p></td>
+          <td class="align-center">50</td>
+          <td class="align-center"><p>可用:&nbsp;<strong class="red">0.00</strong>&nbsp;元</p>
+            <p>冻结:&nbsp;<strong class="red">0.00</strong>&nbsp;元</p>
+          </td>
+          <td class="align-center">5</td>
+          <td class="align-center">V0</td>
+          <td class="align-center">允许</td>
+          <td class="align-center"><a href="">编辑</a> | <a href="">通知</a></td>
+        </tr>
+        <tr class="hover member">
+          <td class="w24">
+          	<input type="checkbox" name='del_id[]' value="1" class="checkitem"/>
+          </td>
+          <td class="w48 picture">
+          	<div class="size-44x44">
+	          	<span class="thumb size-44x44"><i></i><img src="http://localhost:8090/shopnc/data/upload/shop/common/default_user_portrait.gif?0.33794700 1473521593"  onload="javascript:DrawImage(this,44,44);"/>
+	          	</span>
+          	</div>
+          </td>
+          <td>
+          	<p class="name"><strong>wangkai</strong>(真实姓名: )</p>
+            <p class="smallfont">注册时间:&nbsp;2016-09-01 00:56:22</p>
+            <div class="im">
+            	<span class="email" >
+                	<a href="JavaScript:void(0);" class="" title="会员尚未填写此项信息" >
+                	</a>
+                </span>
+            </div>
+          </td>
+          <td class="align-center">2</td>
+          <td class="w150 align-center"><p>2016-09-01 00:58:04</p>
+            <p></p></td>
+          <td class="align-center">0</td>
+          <td class="align-center"><p>可用:&nbsp;<strong class="red">0.00</strong>&nbsp;元</p>
+            <p>冻结:&nbsp;<strong class="red">0.00</strong>&nbsp;元</p>
+          </td>
+          <td class="align-center">0</td>
+          <td class="align-center">V0</td>
+          <td class="align-center">允许</td>
+          <td class="align-center"><a href="">编辑</a> | <a href="">通知</a></td>
+        </tr>
+      </tbody>
+      <tfoot class="tfoot">
+     	<tr>
+          <td class="w24"><input type="checkbox" class="checkall" id="checkallBottom"/></td>
+          <td colspan="16">
+          <label for="checkallBottom">全选</label>
+            &nbsp;&nbsp;<a href="JavaScript:void(0);" class="btn" onclick="if(confirm('您确定要删除吗?')){$('#form_member').submit();}">
+            <span>删除</span></a>
+            <div class="pagination"> 
+            	<ul>
+            		<li><span>首页</span></li>
+            		<li><span>上一页</span></li>
+            		<li><span class="currentpage">1</span></li>
+            		<li><span>下一页</span></li>
+            		<li><span>末页</span></li>
+            	</ul> 
+            </div>
+           </td>
+        </tr>
+      </tfoot>
+    </table>
+  </form>
+</div>
+<script>
+$(function(){
+    $('#ncsubmit').click(function(){
+    	$('input[name="op"]').val('member');$('#formSearch').submit();
+    });	
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,284 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge;chrome=1" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>测试站点</title>
+<script type="text/javascript" th:src="@{/data/resource/js/jquery.js}"></script>
+<script type="text/javascript" th:src="@{/data/resource/js/jquery.validation.min.js}"></script>
+<script type="text/javascript" th:src="@{/data/resource/js/admincp.js}"></script>
+<script type="text/javascript" th:src="@{/data/resource/js/jquery.cookie.js}"></script>
+<script type="text/javascript" th:src="@{/data/resource/js/common.js}" charset="utf-8"></script>
+<link th:href="@{/admin/templates/default/css/skin_1.css}" rel="stylesheet" type="text/css" id="cssfile2" />
+<link th:href="@{/data/resource/js/perfect-scrollbar.min.css}" rel="stylesheet" type="text/css" />
+<link th:href="@{/admin/templates/default/css/font/font-awesome/css/font-awesome.min.css}" rel="stylesheet" />
+<!--[if IE 7]>
+  <link rel="stylesheet" href="http://localhost:8090/shopnc/admin/templates/default/css/font/font-awesome/css/font-awesome-ie7.min.css">
+<![endif]-->
+<script type="text/javascript" th:src="@{/data/resource/js/perfect-scrollbar.min.js}"></script>
+
+<script type="text/javascript">
+SITEURL = 'http://localhost:8090/shopnc/shop';
+RESOURCE_SITE_URL = 'http://localhost:8090/shopnc/data/resource';
+MICROSHOP_SITE_URL = 'http://localhost:8090/shopnc/microshop';
+CIRCLE_SITE_URL = 'http://localhost:8090/shopnc/circle';
+ADMIN_TEMPLATES_URL = 'http://localhost:8090/shopnc/admin/templates/default';
+LOADING_IMAGE = "http://localhost:8090/shopnc/admin/templates/default/images/loading.gif";
+//换肤
+cookie_skin = $.cookie("MyCssSkin");
+if (cookie_skin) {
+	$('#cssfile2').attr("href","http://localhost:8090/shopnc/admin/templates/default/css/"+ cookie_skin +".css");
+}
+</script>
+</head>
+<body>
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title">
+      <h3>站点设置</h3>
+      <ul class="tab-base"><li><a  class="current"><span>站点设置</span></a></li><li><a href="" ><span>防灌水设置</span></a></li>
+      <li><a href="" ><span>快递物流跟踪</span></a></li></ul>    
+    </div>
+  </div>
+  <div class="fixed-empty"></div>
+  <form method="post" enctype="multipart/form-data" name="form1">
+    <input type="hidden" name="form_submit" value="ok" />
+    <table class="table tb-type2">
+      <tbody>
+        <tr class="noborder">
+          <td colspan="2" class="required"><label for="site_name">网站名称:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><input id="site_name" name="site_name" value="测试站点" class="txt" type="text" /></td>
+          <td class="vatop tips"><span class="vatop rowform">网站名称，将显示在前台顶部欢迎信息等位置</span></td>
+        </tr>
+     
+         
+
+		
+		
+        <tr>
+          <td colspan="2" class="required"><label for="site_logo">网站Logo:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform">
+          	<span class="type-file-show">
+          		<img class="show_image" th:src="@{/admin/templates/default/images/preview.png}" />
+            	<div class="type-file-preview"><img th:src="@{/data/upload/shop/common/logo.png}" /></div>
+            </span>
+            <span class="type-file-box">
+            <input type='text' name='textfield' id='textfield1' class='type-file-text' />
+            <input type='button' name='button' id='button1' value='' class='type-file-button' />
+            <input name="site_logo" type="file" class="type-file-file" id="site_logo" size="30" hidefocus="true" nc_type="change_site_logo" />
+            </span>
+          </td>
+          <td class="vatop tips"><span class="vatop rowform">默认网站LOGO,通用头部显示，最佳显示尺寸为240*60像素</span></td>
+        </tr>
+        <tr>
+          <td colspan="2" class="required"><label for="site_logo">会员中心Logo:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><span class="type-file-show">
+          	<img class="show_image" src="http://localhost:8090/shopnc/admin/templates/default/images/preview.png" />
+            <div class="type-file-preview"><img src="http://localhost:8090/shopnc/data/upload/shop/common/user_center.png" /></div>
+            </span><span class="type-file-box"><input type='text' name='textfield2' id='textfield2' class='type-file-text' />
+            <input type='button' name='button2' id='button2' value='' class='type-file-button' />
+            <input name="member_logo" type="file" class="type-file-file" id="member_logo" size="30" hidefocus="true" nc_type="change_member_logo" />
+            </span></td>
+          <td class="vatop tips"><span class="vatop rowform">网站小尺寸LOGO，会员个人主页显示，最佳显示尺寸为200*40像素</span></td>
+        </tr>
+        <!-- 商家中心logo -->
+        <tr>
+          <td colspan="2" class="required"><label for="seller_center_logo">商家中心Logo:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><span class="type-file-show">
+            <img class="show_image" src="http://localhost:8090/shopnc/admin/templates/default/images/preview.png" />
+            <div class="type-file-preview"><img src="http://localhost:8090/shopnc/data/upload/shop/common/seller_center_logo.png" /></div>
+            </span><span class="type-file-box"><input type='text' name='textfield' id='textfield3' class='type-file-text' />
+            <input type='button' name='button' id='button1' value='' class='type-file-button' />
+            <input name="seller_center_logo" type="file" class="type-file-file" id="seller_center_logo" size="30" hidefocus="true" nc_type="change_seller_center_logo" />
+            </span></td>
+          <td class="vatop tips"><span class="vatop rowform">商家中心LOGO，最佳显示尺寸为150*40像素，请根据背景色选择使用图片色彩</span></td>
+        </tr>
+        <!-- 商家中心logo -->
+	<!-- WAP手机端LOGO -->
+         <tr>
+          <td colspan="2" class="required"><label for="site_mobile_logo">WAP手机端LOGO:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><span class="type-file-show">
+          <img class="show_image" src="http://localhost:8090/shopnc/admin/templates/default/images/preview.png" />
+            <div class="type-file-preview" style="background-color:red"><img src="http://localhost:8090/shopnc/data/upload/shop/common/" /></div>
+            </span><span class="type-file-box"><input type='text' name='textfield' id='textfield8' class='type-file-text' />
+            <input type='button' name='button' id='button1' value='' class='type-file-button' />
+            <input name="site_mobile_logo" type="file" class="type-file-file" id="site_mobile_logo" size="30" hidefocus="true" nc_type="change_site_mobile_logo" />
+            </span></td>
+          <td class="vatop tips"><span class="vatop rowform">WAP手机端LOGO,通用头部显示，最佳显示尺寸为116*43像素</span></td>
+        </tr>
+	  <!-- 商城底部微信二维码 -->
+        <tr>
+          <td colspan="2" class="required"><label for="site_logowx">微信二维码:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><span class="type-file-show">
+          	<img class="show_image" src="http://localhost:8090/shopnc/admin/templates/default/images/preview.png"/>
+            <div class="type-file-preview"><img src="http://localhost:8090/shopnc/data/upload/shop/common/04781087584534013.png"/></div>
+            </span><span class="type-file-box"><input type='text' name='textfield' id='textfield5' class='type-file-text' />
+            <input type='button' name='button' id='button1' value='' class='type-file-button' />
+            <input name="site_logowx" type="file" class="type-file-file" id="site_logowx" size="30" hidefocus="true" nc_type="change_site_logowx"/>
+            </span></td>
+          <td class="vatop tips"><span class="vatop rowform">放在网站右上角顶部及首页底部右下角,最佳显示尺寸为66*66像素</span></td>
+        </tr>	
+	 <!-- 商城底部微信二维码 -->
+        <tr>
+          <td colspan="2" class="required"><label for="icp_number">ICP证书号:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><input id="icp_number" name="icp_number" value="" class="txt" type="text" /></td>
+          <td class="vatop tips"><span class="vatop rowform">前台页面底部可以显示 ICP 备案信息，如果网站已备案，在此输入你的授权码，它将显示在前台页面底部，如果没有请留空</span></td>
+        </tr>
+        <tr>
+          <td colspan="2" class="required"><label for="site_phone">平台客服联系电话:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><input id="site_phone" name="site_phone" value="23456789,88997788" class="txt" type="text" /></td>
+          <td class="vatop tips"><span class="vatop rowform">商家中心右下侧显示，方便商家遇到问题时咨询，多个请用半角逗号 "," 隔开</span></td>
+        </tr>
+	
+	
+	
+	<!-- 400 电话 -->		
+<tr>
+          <td colspan="2" class="required"><label for="site_tel400">前台客服电话:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><input id="site_tel400" name="site_tel400" value="4008008000" class="txt" type="text" /></td>
+          <td class="vatop tips"><span class="vatop rowform">显示在网站的底部</span></td>
+        </tr>
+		<!-- 400 电话 -->	
+
+	
+        <!--
+        平台付款账号，前台暂时无调用
+        <tr>
+          <td colspan="2" class="required"><label for="site_bank_account">平台汇款账号:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><input id="site_bank_account" name="site_bank_account" value="银行:中国银行,币种:人民币,账号:xxxxxxxxxxx,姓名:XXX,开户行:中国银行XX分行" class="txt" type="text" /></td>
+          <td class="vatop tips"><span class="vatop rowform">用半角逗号","分隔项目，用半角冒号":"分隔标题和内容，例："银行:中国银行,币种:人民币,账号:xxxxxxxxxxx,姓名:运维舫,开户行:中国银行XX分行"</span></td>
+        </tr>
+        -->
+        <tr>
+          <td colspan="2" class="required"><label for="site_email">电子邮件:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><input id="site_email" name="site_email" value="76809326@qq.com" class="txt" type="text" /></td>
+          <td class="vatop tips"><span class="vatop rowform">商家中心右下侧显示，方便商家遇到问题时咨询</span></td>
+        </tr>
+         <tr>
+          <td colspan="2" class="required"><label for="statistics_code">版权底部信息:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><textarea name="statistics_code" rows="6" class="tarea" id="statistics_code">Copyright 2015 <a href="http://bbs.shopnc.club" target="_blank">运维舫</a> All rights reserved.<br />本演示来源于<a href="http://shop108934787.taobao.com/" target="_blank">bbs.shopnc.club</a></textarea></td>
+          <td class="vatop tips"><span class="vatop rowform">前台页面底部可以显示版权信息或第三方统计</span></td>
+        </tr> 
+        <tr>
+          <td colspan="2" class="required"><label for="time_zone"> 默认时区:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><select id="time_zone" name="time_zone">
+              <option value="-12">(GMT -12:00) Eniwetok, Kwajalein</option>
+              <option value="-11">(GMT -11:00) Midway Island, Samoa</option>
+              <option value="-10">(GMT -10:00) Hawaii</option>
+              <option value="-9">(GMT -09:00) Alaska</option>
+              <option value="-8">(GMT -08:00) Pacific Time (US &amp; Canada), Tijuana</option>
+              <option value="-7">(GMT -07:00) Mountain Time (US &amp; Canada), Arizona</option>
+              <option value="-6">(GMT -06:00) Central Time (US &amp; Canada), Mexico City</option>
+              <option value="-5">(GMT -05:00) Eastern Time (US &amp; Canada), Bogota, Lima, Quito</option>
+              <option value="-4">(GMT -04:00) Atlantic Time (Canada), Caracas, La Paz</option>
+              <option value="-3.5">(GMT -03:30) Newfoundland</option>
+              <option value="-3">(GMT -03:00) Brassila, Buenos Aires, Georgetown, Falkland Is</option>
+              <option value="-2">(GMT -02:00) Mid-Atlantic, Ascension Is., St. Helena</option>
+              <option value="-1">(GMT -01:00) Azores, Cape Verde Islands</option>
+              <option value="0">(GMT) Casablanca, Dublin, Edinburgh, London, Lisbon, Monrovia</option>
+              <option value="1">(GMT +01:00) Amsterdam, Berlin, Brussels, Madrid, Paris, Rome</option>
+              <option value="2">(GMT +02:00) Cairo, Helsinki, Kaliningrad, South Africa</option>
+              <option value="3">(GMT +03:00) Baghdad, Riyadh, Moscow, Nairobi</option>
+              <option value="3.5">(GMT +03:30) Tehran</option>
+              <option value="4">(GMT +04:00) Abu Dhabi, Baku, Muscat, Tbilisi</option>
+              <option value="4.5">(GMT +04:30) Kabul</option>
+              <option value="5">(GMT +05:00) Ekaterinburg, Islamabad, Karachi, Tashkent</option>
+              <option value="5.5">(GMT +05:30) Bombay, Calcutta, Madras, New Delhi</option>
+              <option value="5.75">(GMT +05:45) Katmandu</option>
+              <option value="6">(GMT +06:00) Almaty, Colombo, Dhaka, Novosibirsk</option>
+              <option value="6.5">(GMT +06:30) Rangoon</option>
+              <option value="7">(GMT +07:00) Bangkok, Hanoi, Jakarta</option>
+              <option value="8">(GMT +08:00) Beijing, Hong Kong, Perth, Singapore, Taipei</option>
+              <option value="9">(GMT +09:00) Osaka, Sapporo, Seoul, Tokyo, Yakutsk</option>
+              <option value="9.5">(GMT +09:30) Adelaide, Darwin</option>
+              <option value="10">(GMT +10:00) Canberra, Guam, Melbourne, Sydney, Vladivostok</option>
+              <option value="11">(GMT +11:00) Magadan, New Caledonia, Solomon Islands</option>
+              <option value="12">(GMT +12:00) Auckland, Wellington, Fiji, Marshall Island</option>
+            </select></td>
+          <td class="vatop tips"><span class="vatop rowform">设置系统使用的时区，中国为+8</span></td>
+        </tr>              
+        <tr>
+          <td colspan="2" class="required">站点状态:</td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform onoff"><label for="site_status1" class="cb-enable selected" ><span>开启</span></label>
+            <label for="site_status0" class="cb-disable " ><span>关闭</span></label>
+            <input id="site_status1" name="site_status" checked="checked"  value="1" type="radio" />
+            <input id="site_status0" name="site_status"  value="0" type="radio" /></td>
+          <td class="vatop tips"><span class="vatop rowform">可暂时将站点关闭，其他人无法访问，但不影响管理员访问后台</span></td>
+        </tr>
+        <tr>
+          <td colspan="2" class="required"><label for="closed_reason">关闭原因:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><textarea name="closed_reason" rows="6" class="tarea" id="closed_reason" >升级中……</textarea></td>
+          <td class="vatop tips"><span class="vatop rowform">当网站处于关闭状态时，关闭原因将显示在前台</span></td>
+        </tr>
+      </tbody>
+      <tfoot id="submit-holder">
+        <tr class="tfoot">
+          <td colspan="2" ><a href="JavaScript:void(0);" class="btn" onclick="document.form1.submit()"><span>提交</span></a></td>
+        </tr>
+      </tfoot>
+    </table>
+  </form>
+</div>
+<script type="text/javascript">
+// 模拟网站LOGO上传input type='file'样式
+$(function(){
+	$("#site_logo").change(function(){
+		$("#textfield1").val($(this).val());
+	});
+	$("#member_logo").change(function(){
+		$("#textfield2").val($(this).val());
+	});
+	$("#seller_center_logo").change(function(){
+		$("#textfield3").val($(this).val());
+	});
+	$("#site_mobile_logo").change(function(){
+		$("#textfield8").val($(this).val());
+	});
+	$("#site_logowx").change(function(){
+		$("#textfield5").val($(this).val());
+	});
+// 上传图片类型
+$('input[class="type-file-file"]').change(function(){
+	var filepatd=$(this).val();
+	var extStart=filepatd.lastIndexOf(".");
+	var ext=filepatd.substring(extStart,filepatd.lengtd).toUpperCase();		
+		
+	});
+$('#time_zone').attr('value','8');	
+});
+</script>
+</body>
+</html>
