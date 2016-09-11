@@ -219,22 +219,22 @@ function addFavorite(url, title) {
   <div class="content">
     <dl>
   <dt>设置</dt>
-  	  	<dd><a href="javascript:void(0)" onclick="openItem('base,setting,setting','/admin/siteconfig')">站点设置</a></dd>
-  	  	<dd><a href="javascript:void(0)" onclick="openItem('qq,account,setting')">账号同步</a></dd>
-  	  	<dd><a href="javascript:void(0)" onclick="openItem('param,upload,setting')">上传设置</a></dd>
-  	  	<dd><a href="javascript:void(0)" onclick="openItem('seo,setting,setting')">SEO设置</a></dd>
-  	  	<dd><a href="javascript:void(0)" onclick="openItem('email,message,setting')">邮箱短信</a></dd>
-  	  	<dd><a href="javascript:void(0)" onclick="openItem('system,payment,setting')">支付方式</a></dd>
-  	  	<dd><a href="javascript:void(0)" onclick="openItem('admin,admin,setting')">权限设置</a></dd>
-  	  	<dd><a href="javascript:void(0)" onclick="openItem('index,express,setting')">快递公司</a></dd>
-  	  	<dd><a href="javascript:void(0)" onclick="openItem('waybill_list,waybill,setting')">运单模板</a></dd>
-  	  	<dd><a href="javascript:void(0)" onclick="openItem('area,area,setting')">地区管理</a></dd>
-  	  	<dd><a href="javascript:void(0)" onclick="openItem('index,offpay_area,setting')">配送地区</a></dd>
-  	  	<dd><a href="javascript:void(0)" onclick="openItem('clear,cache,setting')">清理缓存</a></dd>
-  	  	<dd><a href="javascript:void(0)" onclick="openItem('db,db,setting')">数据备份</a></dd>
-  	  	<dd><a href="javascript:void(0)" onclick="openItem('perform,perform,setting')">性能优化</a></dd>
-  	  	<dd><a href="javascript:void(0)" onclick="openItem('search,search,setting')">搜索设置</a></dd>
-  	  	<dd><a href="javascript:void(0)" onclick="openItem('list,admin_log,setting')">操作日志</a></dd>
+  	  	<dd><a href="javascript:void(0)" onclick="openItem('base,setting,setting','/admin/config/siteconfig')">站点设置</a></dd>
+  	  	<dd><a href="javascript:void(0)" onclick="openItem('qq,account,setting','/admin/config/accountsynchronization')">账号同步</a></dd>
+  	  	<dd><a href="javascript:void(0)" onclick="openItem('param,upload,setting','/admin/config/uploadconfig')">上传设置</a></dd>
+  	  	<dd><a href="javascript:void(0)" onclick="openItem('seo,setting,setting','/admin/config/seoconfig')">SEO设置</a></dd>
+  	  	<dd><a href="javascript:void(0)" onclick="openItem('email,message,setting','/admin/config/mailandsms')">邮箱短信</a></dd>
+  	  	<dd><a href="javascript:void(0)" onclick="openItem('system,payment,setting','/admin/config/payconfig')">支付方式</a></dd>
+  	  	<dd><a href="javascript:void(0)" onclick="openItem('admin,admin,setting','/admin/config/authoritymanage')">权限设置</a></dd>
+  	  	<dd><a href="javascript:void(0)" onclick="openItem('index,express,setting','/admin/config/expressconfig')">快递公司</a></dd>
+  	  	<dd><a href="javascript:void(0)" onclick="openItem('waybill_list,waybill,setting','/admin/config/expressbillmodelconfig')">运单模板</a></dd>
+  	  	<dd><a href="javascript:void(0)" onclick="openItem('area,area,setting','/admin/config/areaconfig')">地区管理</a></dd>
+  	  	<dd><a href="javascript:void(0)" onclick="openItem('index,offpay_area,setting','/admin/config/deliveryareaconfig')">配送地区</a></dd>
+  	  	<dd><a href="javascript:void(0)" onclick="openItem('clear,cache,setting','/admin/config/cleancache')">清理缓存</a></dd>
+  	  	<dd><a href="javascript:void(0)" onclick="openItem('db,db,setting','/admin/config/databasebackup')">数据备份</a></dd>
+  	  	<dd><a href="javascript:void(0)" onclick="openItem('perform,perform,setting','/admin/config/performanceoptimization')">性能优化</a></dd>
+  	  	<dd><a href="javascript:void(0)" onclick="openItem('search,search,setting','/admin/config/searchconfig')">搜索设置</a></dd>
+  	  	<dd><a href="javascript:void(0)" onclick="openItem('list,admin_log,setting','/admin/config/operationlog')">操作日志</a></dd>
   	  	 </dl>
     <dl>
   <dt>商品</dt>
@@ -399,7 +399,7 @@ function addFavorite(url, title) {
           <nav id="nav" class="main-nav">
             <ul>
            		<li><a class="link actived" id="nav_dashboard" href="javascript:;" onclick="openItem('dashboard','/admin/console');"><span>控制台</span></a></li>
-				<li><a class="link" id="nav_setting" href="javascript:;" onclick="openItem('setting');"><span>设置</span></a></li>
+				<li><a class="link" id="nav_setting" href="javascript:;" onclick="openItem('setting','/admin/config/siteconfig');"><span>设置</span></a></li>
 				<li><a class="link" id="nav_goods" href="javascript:;" onclick="openItem('goods');"><span>商品</span></a></li>
 				<li><a class="link" id="nav_store" href="javascript:;" onclick="openItem('store');"><span>店铺</span></a></li>
 				<li><a class="link" id="nav_member" href="javascript:;" onclick="openItem('member');"><span>会员</span></a></li>
@@ -444,7 +444,7 @@ function addFavorite(url, title) {
                   <ol>
                     <li nc_type=''><a href="JavaScript:void(0);" name="item_welcomedashboard" id="item_welcomedashboard" onclick="openItem('welcome,dashboard,dashboard','/admin/console');">欢迎页面</a></li>
                     <li nc_type=''><a href="JavaScript:void(0);" name="item_aboutusdashboard" id="item_aboutusdashboard" onclick="openItem('aboutus,dashboard,dashboard','/admin/aboutus');">关于我们</a></li>
-                    <li nc_type=''><a href="JavaScript:void(0);" name="item_basesetting" id="item_basesetting" onclick="openItem('base,setting,dashboard','/admin/siteconfig');">站点设置</a></li>
+                    <li nc_type=''><a href="JavaScript:void(0);" name="item_basesetting" id="item_basesetting" onclick="openItem('base,setting,dashboard','/admin/config/siteconfig');">站点设置</a></li>
                     <li nc_type=''><a href="JavaScript:void(0);" name="item_membermember" id="item_membermember" onclick="openItem('member,member,dashboard','/admin/membermanage');">会员管理</a>
                     </li><li nc_type=''><a href="JavaScript:void(0);" name="item_storestore" id="item_storestore" onclick="openItem('store,store,dashboard','/admin/shopmanage');">店铺管理</a></li>
                     <li nc_type=''><a href="JavaScript:void(0);" name="item_goodsgoods" id="item_goodsgoods" onclick="openItem('goods,goods,dashboard','/admin/goodsmanage');">商品管理</a></li>
@@ -460,7 +460,22 @@ function addFavorite(url, title) {
               <dl>
                 <dd>
                   <ol>
-                    <li nc_type=''><a href="JavaScript:void(0);" name="item_basesetting" id="item_basesetting" onclick="openItem('base,setting,setting');">站点设置</a></li><li nc_type=''><a href="JavaScript:void(0);" name="item_qqaccount" id="item_qqaccount" onclick="openItem('qq,account,setting');">账号同步</a></li><li nc_type=''><a href="JavaScript:void(0);" name="item_paramupload" id="item_paramupload" onclick="openItem('param,upload,setting');">上传设置</a></li><li nc_type=''><a href="JavaScript:void(0);" name="item_seosetting" id="item_seosetting" onclick="openItem('seo,setting,setting');">SEO设置</a></li><li nc_type=''><a href="JavaScript:void(0);" name="item_emailmessage" id="item_emailmessage" onclick="openItem('email,message,setting');">邮箱短信</a></li><li nc_type=''><a href="JavaScript:void(0);" name="item_systempayment" id="item_systempayment" onclick="openItem('system,payment,setting');">支付方式</a></li><li nc_type=''><a href="JavaScript:void(0);" name="item_adminadmin" id="item_adminadmin" onclick="openItem('admin,admin,setting');">权限设置</a></li><li nc_type=''><a href="JavaScript:void(0);" name="item_indexexpress" id="item_indexexpress" onclick="openItem('index,express,setting');">快递公司</a></li><li nc_type=''><a href="JavaScript:void(0);" name="item_waybill_listwaybill" id="item_waybill_listwaybill" onclick="openItem('waybill_list,waybill,setting');">运单模板</a></li><li nc_type=''><a href="JavaScript:void(0);" name="item_areaarea" id="item_areaarea" onclick="openItem('area,area,setting');">地区管理</a></li><li nc_type=''><a href="JavaScript:void(0);" name="item_indexoffpay_area" id="item_indexoffpay_area" onclick="openItem('index,offpay_area,setting');">配送地区</a></li><li nc_type=''><a href="JavaScript:void(0);" name="item_clearcache" id="item_clearcache" onclick="openItem('clear,cache,setting');">清理缓存</a></li><li nc_type=''><a href="JavaScript:void(0);" name="item_dbdb" id="item_dbdb" onclick="openItem('db,db,setting');">数据备份</a></li><li nc_type=''><a href="JavaScript:void(0);" name="item_performperform" id="item_performperform" onclick="openItem('perform,perform,setting');">性能优化</a></li><li nc_type=''><a href="JavaScript:void(0);" name="item_searchsearch" id="item_searchsearch" onclick="openItem('search,search,setting');">搜索设置</a></li><li nc_type=''><a href="JavaScript:void(0);" name="item_listadmin_log" id="item_listadmin_log" onclick="openItem('list,admin_log,setting');">操作日志</a></li>
+                    <li nc_type=''><a href="JavaScript:void(0);" name="item_basesetting" id="item_basesetting" onclick="openItem('base,setting,setting','/admin/config/siteconfig');">站点设置</a></li>
+                    <li nc_type=''><a href="JavaScript:void(0);" name="item_qqaccount" id="item_qqaccount" onclick="openItem('qq,account,setting','/admin/config/accountsynchronization');">账号同步</a></li>
+                    <li nc_type=''><a href="JavaScript:void(0);" name="item_paramupload" id="item_paramupload" onclick="openItem('param,upload,setting','/admin/config/uploadconfig');">上传设置</a></li>
+                    <li nc_type=''><a href="JavaScript:void(0);" name="item_seosetting" id="item_seosetting" onclick="openItem('seo,setting,setting','/admin/config/seoconfig');">SEO设置</a></li>
+                    <li nc_type=''><a href="JavaScript:void(0);" name="item_emailmessage" id="item_emailmessage" onclick="openItem('email,message,setting','/admin/config/mailandsms');">邮箱短信</a></li>
+                    <li nc_type=''><a href="JavaScript:void(0);" name="item_systempayment" id="item_systempayment" onclick="openItem('system,payment,setting','/admin/config/payconfig');">支付方式</a></li>
+                    <li nc_type=''><a href="JavaScript:void(0);" name="item_adminadmin" id="item_adminadmin" onclick="openItem('admin,admin,setting','/admin/config/authoritymanage');">权限设置</a></li>
+                    <li nc_type=''><a href="JavaScript:void(0);" name="item_indexexpress" id="item_indexexpress" onclick="openItem('index,express,setting','/admin/config/expressconfig');">快递公司</a></li>
+                    <li nc_type=''><a href="JavaScript:void(0);" name="item_waybill_listwaybill" id="item_waybill_listwaybill" onclick="openItem('waybill_list,waybill,setting','/admin/config/expressbillmodelconfig');">运单模板</a></li>
+                    <li nc_type=''><a href="JavaScript:void(0);" name="item_areaarea" id="item_areaarea" onclick="openItem('area,area,setting','/admin/config/areaconfig');">地区管理</a></li>
+                    <li nc_type=''><a href="JavaScript:void(0);" name="item_indexoffpay_area" id="item_indexoffpay_area" onclick="openItem('index,offpay_area,setting','/admin/config/deliveryareaconfig');">配送地区</a></li>
+                    <li nc_type=''><a href="JavaScript:void(0);" name="item_clearcache" id="item_clearcache" onclick="openItem('clear,cache,setting','/admin/config/cleancache');">清理缓存</a></li>
+                    <li nc_type=''><a href="JavaScript:void(0);" name="item_dbdb" id="item_dbdb" onclick="openItem('db,db,setting','/admin/config/databasebackup');">数据备份</a></li>
+                    <li nc_type=''><a href="JavaScript:void(0);" name="item_performperform" id="item_performperform" onclick="openItem('perform,perform,setting','/admin/config/performanceoptimization');">性能优化</a></li>
+                    <li nc_type=''><a href="JavaScript:void(0);" name="item_searchsearch" id="item_searchsearch" onclick="openItem('search,search,setting','/admin/config/searchconfig');">搜索设置</a></li>
+                    <li nc_type=''><a href="JavaScript:void(0);" name="item_listadmin_log" id="item_listadmin_log" onclick="openItem('list,admin_log,setting','/admin/config/operationlog');">操作日志</a></li>
                   </ol>
                 </dd>
               </dl>
