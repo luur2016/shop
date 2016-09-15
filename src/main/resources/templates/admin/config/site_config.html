@@ -18,16 +18,16 @@
 <script type="text/javascript" th:src="@{/data/resource/js/perfect-scrollbar.min.js}"></script>
 
 <script type="text/javascript">
-SITEURL = 'http://localhost:8090/shopnc/shop';
-RESOURCE_SITE_URL = 'http://localhost:8090/shopnc/data/resource';
-MICROSHOP_SITE_URL = 'http://localhost:8090/shopnc/microshop';
-CIRCLE_SITE_URL = 'http://localhost:8090/shopnc/circle';
-ADMIN_TEMPLATES_URL = 'http://localhost:8090/shopnc/admin/templates/default';
-LOADING_IMAGE = "http://localhost:8090/shopnc/admin/templates/default/images/loading.gif";
+SITEURL = '/shop';
+RESOURCE_SITE_URL = '/data/resource';
+MICROSHOP_SITE_URL = '/microshop';
+CIRCLE_SITE_URL = '/circle';
+ADMIN_TEMPLATES_URL = '/admin/templates/default';
+LOADING_IMAGE = "/admin/templates/default/images/loading.gif";
 //换肤
 cookie_skin = $.cookie("MyCssSkin");
 if (cookie_skin) {
-	$('#cssfile2').attr("href","http://localhost:8090/shopnc/admin/templates/default/css/"+ cookie_skin +".css");
+	$('#cssfile2').attr("href","/admin/templates/default/css/"+ cookie_skin +".css");
 }
 </script>
 </head>
@@ -44,7 +44,7 @@ if (cookie_skin) {
     </div>
   </div>
   <div class="fixed-empty"></div>
-  <form method="post" enctype="multipart/form-data" name="form1">
+  <form th:method="post" th:action="@{/admin/config/siteconfig}" enctype="multipart/form-data" name="form1">
     <input type="hidden" name="form_submit" value="ok" />
     <table class="table tb-type2">
       <tbody>
@@ -52,14 +52,9 @@ if (cookie_skin) {
           <td colspan="2" class="required"><label for="site_name">网站名称:</label></td>
         </tr>
         <tr class="noborder">
-          <td class="vatop rowform"><input id="site_name" name="site_name" value="测试站点" class="txt" type="text" /></td>
+          <td class="vatop rowform"><input id="site_name" th:field="site_name" th:value="${settings.site_name}" class="txt" type="text" /></td>
           <td class="vatop tips"><span class="vatop rowform">网站名称，将显示在前台顶部欢迎信息等位置</span></td>
         </tr>
-     
-         
-
-		
-		
         <tr>
           <td colspan="2" class="required"><label for="site_logo">网站Logo:</label></td>
         </tr>
@@ -67,7 +62,7 @@ if (cookie_skin) {
           <td class="vatop rowform">
           	<span class="type-file-show">
           		<img class="show_image" th:src="@{/admin/templates/default/images/preview.png}" />
-            	<div class="type-file-preview"><img th:src="@{/data/upload/shop/common/logo.png}" /></div>
+            	<div class="type-file-preview"><img th:src="@{'/data/upload/shop/common/'+${settings.site_logo}}"/></div>
             </span>
             <span class="type-file-box">
             <input type='text' name='textfield' id='textfield1' class='type-file-text' />
@@ -82,8 +77,8 @@ if (cookie_skin) {
         </tr>
         <tr class="noborder">
           <td class="vatop rowform"><span class="type-file-show">
-          	<img class="show_image" src="http://localhost:8090/shopnc/admin/templates/default/images/preview.png" />
-            <div class="type-file-preview"><img src="http://localhost:8090/shopnc/data/upload/shop/common/user_center.png" /></div>
+          	<img class="show_image" th:src="@{/admin/templates/default/images/preview.png}" />
+            <div class="type-file-preview"><img th:src="@{'/data/upload/shop/common/'+${settings.member_logo}}" /></div>
             </span><span class="type-file-box"><input type='text' name='textfield2' id='textfield2' class='type-file-text' />
             <input type='button' name='button2' id='button2' value='' class='type-file-button' />
             <input name="member_logo" type="file" class="type-file-file" id="member_logo" size="30" hidefocus="true" nc_type="change_member_logo" />
@@ -96,8 +91,8 @@ if (cookie_skin) {
         </tr>
         <tr class="noborder">
           <td class="vatop rowform"><span class="type-file-show">
-            <img class="show_image" src="http://localhost:8090/shopnc/admin/templates/default/images/preview.png" />
-            <div class="type-file-preview"><img src="http://localhost:8090/shopnc/data/upload/shop/common/seller_center_logo.png" /></div>
+            <img class="show_image" th:src="@{/admin/templates/default/images/preview.png}" />
+            <div class="type-file-preview"><img th:src="@{'/data/upload/shop/common/'+${settings.seller_center_logo}}" /></div>
             </span><span class="type-file-box"><input type='text' name='textfield' id='textfield3' class='type-file-text' />
             <input type='button' name='button' id='button1' value='' class='type-file-button' />
             <input name="seller_center_logo" type="file" class="type-file-file" id="seller_center_logo" size="30" hidefocus="true" nc_type="change_seller_center_logo" />
@@ -105,14 +100,14 @@ if (cookie_skin) {
           <td class="vatop tips"><span class="vatop rowform">商家中心LOGO，最佳显示尺寸为150*40像素，请根据背景色选择使用图片色彩</span></td>
         </tr>
         <!-- 商家中心logo -->
-	<!-- WAP手机端LOGO -->
+		<!-- WAP手机端LOGO -->
          <tr>
           <td colspan="2" class="required"><label for="site_mobile_logo">WAP手机端LOGO:</label></td>
         </tr>
         <tr class="noborder">
           <td class="vatop rowform"><span class="type-file-show">
-          <img class="show_image" src="http://localhost:8090/shopnc/admin/templates/default/images/preview.png" />
-            <div class="type-file-preview" style="background-color:red"><img src="http://localhost:8090/shopnc/data/upload/shop/common/" /></div>
+          <img class="show_image" th:src="@{/admin/templates/default/images/preview.png}" />
+            <div class="type-file-preview" style="background-color:red"><img th:src="@{'/data/upload/shop/common/'+${settings.site_mobile_logo}}" /></div>
             </span><span class="type-file-box"><input type='text' name='textfield' id='textfield8' class='type-file-text' />
             <input type='button' name='button' id='button1' value='' class='type-file-button' />
             <input name="site_mobile_logo" type="file" class="type-file-file" id="site_mobile_logo" size="30" hidefocus="true" nc_type="change_site_mobile_logo" />
@@ -125,8 +120,8 @@ if (cookie_skin) {
         </tr>
         <tr class="noborder">
           <td class="vatop rowform"><span class="type-file-show">
-          	<img class="show_image" src="http://localhost:8090/shopnc/admin/templates/default/images/preview.png"/>
-            <div class="type-file-preview"><img src="http://localhost:8090/shopnc/data/upload/shop/common/04781087584534013.png"/></div>
+          	<img class="show_image" th:src="@{/admin/templates/default/images/preview.png}"/>
+            <div class="type-file-preview"><img th:src="@{'/data/upload/shop/common/'+${settings.site_logowx}}"/></div>
             </span><span class="type-file-box"><input type='text' name='textfield' id='textfield5' class='type-file-text' />
             <input type='button' name='button' id='button1' value='' class='type-file-button' />
             <input name="site_logowx" type="file" class="type-file-file" id="site_logowx" size="30" hidefocus="true" nc_type="change_site_logowx"/>
@@ -138,14 +133,14 @@ if (cookie_skin) {
           <td colspan="2" class="required"><label for="icp_number">ICP证书号:</label></td>
         </tr>
         <tr class="noborder">
-          <td class="vatop rowform"><input id="icp_number" name="icp_number" value="" class="txt" type="text" /></td>
+          <td class="vatop rowform"><input id="icp_number" name="icp_number" th:value="${settings.icp_number}" class="txt" type="text" /></td>
           <td class="vatop tips"><span class="vatop rowform">前台页面底部可以显示 ICP 备案信息，如果网站已备案，在此输入你的授权码，它将显示在前台页面底部，如果没有请留空</span></td>
         </tr>
         <tr>
           <td colspan="2" class="required"><label for="site_phone">平台客服联系电话:</label></td>
         </tr>
         <tr class="noborder">
-          <td class="vatop rowform"><input id="site_phone" name="site_phone" value="23456789,88997788" class="txt" type="text" /></td>
+          <td class="vatop rowform"><input id="site_phone" name="site_phone" th:value="${settings.site_phone}" class="txt" type="text" /></td>
           <td class="vatop tips"><span class="vatop rowform">商家中心右下侧显示，方便商家遇到问题时咨询，多个请用半角逗号 "," 隔开</span></td>
         </tr>
 	
@@ -156,14 +151,14 @@ if (cookie_skin) {
           <td colspan="2" class="required"><label for="site_tel400">前台客服电话:</label></td>
         </tr>
         <tr class="noborder">
-          <td class="vatop rowform"><input id="site_tel400" name="site_tel400" value="4008008000" class="txt" type="text" /></td>
+          <td class="vatop rowform"><input id="site_tel400" name="site_tel400" th:value="${settings.site_tel400}" class="txt" type="text" /></td>
           <td class="vatop tips"><span class="vatop rowform">显示在网站的底部</span></td>
         </tr>
 		<!-- 400 电话 -->	
 
 	
         <!--
-        平台付款账号，前台暂时无调用
+       	 平台付款账号，前台暂时无调用
         <tr>
           <td colspan="2" class="required"><label for="site_bank_account">平台汇款账号:</label></td>
         </tr>
@@ -176,21 +171,22 @@ if (cookie_skin) {
           <td colspan="2" class="required"><label for="site_email">电子邮件:</label></td>
         </tr>
         <tr class="noborder">
-          <td class="vatop rowform"><input id="site_email" name="site_email" value="76809326@qq.com" class="txt" type="text" /></td>
+          <td class="vatop rowform"><input id="site_email" name="site_email" th:value="${settings.site_email}" class="txt" type="text" /></td>
           <td class="vatop tips"><span class="vatop rowform">商家中心右下侧显示，方便商家遇到问题时咨询</span></td>
         </tr>
          <tr>
           <td colspan="2" class="required"><label for="statistics_code">版权底部信息:</label></td>
         </tr>
         <tr class="noborder">
-          <td class="vatop rowform"><textarea name="statistics_code" rows="6" class="tarea" id="statistics_code">Copyright 2015 <a href="http://bbs.shopnc.club" target="_blank">运维舫</a> All rights reserved.<br />本演示来源于<a href="http://shop108934787.taobao.com/" target="_blank">bbs.shopnc.club</a></textarea></td>
+          <td class="vatop rowform"><textarea name="statistics_code" rows="6" class="tarea" id="statistics_code" th:text="${settings.statistics_code}"></textarea></td>
           <td class="vatop tips"><span class="vatop rowform">前台页面底部可以显示版权信息或第三方统计</span></td>
         </tr> 
         <tr>
           <td colspan="2" class="required"><label for="time_zone"> 默认时区:</label></td>
         </tr>
         <tr class="noborder">
-          <td class="vatop rowform"><select id="time_zone" name="time_zone">
+          <td class="vatop rowform">
+          <select id="time_zone" name="time_zone">
               <option value="-12">(GMT -12:00) Eniwetok, Kwajalein</option>
               <option value="-11">(GMT -11:00) Midway Island, Samoa</option>
               <option value="-10">(GMT -10:00) Hawaii</option>
@@ -223,36 +219,48 @@ if (cookie_skin) {
               <option value="10">(GMT +10:00) Canberra, Guam, Melbourne, Sydney, Vladivostok</option>
               <option value="11">(GMT +11:00) Magadan, New Caledonia, Solomon Islands</option>
               <option value="12">(GMT +12:00) Auckland, Wellington, Fiji, Marshall Island</option>
-            </select></td>
+            </select>
+           </td>
           <td class="vatop tips"><span class="vatop rowform">设置系统使用的时区，中国为+8</span></td>
         </tr>              
         <tr>
           <td colspan="2" class="required">站点状态:</td>
         </tr>
         <tr class="noborder">
-          <td class="vatop rowform onoff"><label for="site_status1" class="cb-enable selected" ><span>开启</span></label>
-            <label for="site_status0" class="cb-disable " ><span>关闭</span></label>
-            <input id="site_status1" name="site_status" checked="checked"  value="1" type="radio" />
-            <input id="site_status0" name="site_status"  value="0" type="radio" /></td>
+          <td class="vatop rowform onoff">
+          	<label id="lbl_site_status1" for="site_status1" class="cb-enable selected">
+          		<span onclick="statusSelect(1)">开启</span>
+          	</label>
+            <label id="lbl_site_status0"  for="site_status0" class="cb-disable">
+            	<span onclick="statusSelect(0)">关闭</span>
+            </label>
+            <input id="site_status1" name="site_status" value="1" type="radio" />
+            <input id="site_status0" name="site_status" value="0" type="radio" />
+           </td>
           <td class="vatop tips"><span class="vatop rowform">可暂时将站点关闭，其他人无法访问，但不影响管理员访问后台</span></td>
         </tr>
         <tr>
           <td colspan="2" class="required"><label for="closed_reason">关闭原因:</label></td>
         </tr>
         <tr class="noborder">
-          <td class="vatop rowform"><textarea name="closed_reason" rows="6" class="tarea" id="closed_reason" >升级中……</textarea></td>
+          <td class="vatop rowform"><textarea name="closed_reason" rows="6" class="tarea" id="closed_reason" th:text="${settings.closed_reason}"></textarea></td>
           <td class="vatop tips"><span class="vatop rowform">当网站处于关闭状态时，关闭原因将显示在前台</span></td>
         </tr>
       </tbody>
       <tfoot id="submit-holder">
         <tr class="tfoot">
-          <td colspan="2" ><a href="JavaScript:void(0);" class="btn" onclick="document.form1.submit()"><span>提交</span></a></td>
+          <td colspan="2" >
+          	<a href="JavaScript:void(0);" class="btn" onclick="document.form1.submit()"><span>提交</span></a>
+          </td>
         </tr>
       </tfoot>
     </table>
   </form>
 </div>
-<script type="text/javascript">
+
+<script th:inline="javascript">
+/*<![CDATA[*/
+           
 // 模拟网站LOGO上传input type='file'样式
 $(function(){
 	$("#site_logo").change(function(){
@@ -270,15 +278,54 @@ $(function(){
 	$("#site_logowx").change(function(){
 		$("#textfield5").val($(this).val());
 	});
-// 上传图片类型
-$('input[class="type-file-file"]').change(function(){
-	var filepatd=$(this).val();
-	var extStart=filepatd.lastIndexOf(".");
-	var ext=filepatd.substring(extStart,filepatd.lengtd).toUpperCase();		
+	
+	// 上传图片类型
+	$('input[class="type-file-file"]').change(function(){
+		var filepatd=$(this).val();
+		var extStart=filepatd.lastIndexOf(".");
+		var ext=filepatd.substring(extStart,filepatd.lengtd).toUpperCase();	
 		
-	});
-$('#time_zone').attr('value','8');	
+		if(ext!=".PNG"&&ext!=".GIF"&&ext!=".JPG"&&ext!=".JPEG"){
+			alert("图片限于png,gif,jpeg,jpg格式");
+			$(this).attr('value','');
+			return false;
+		}
+	);
+
+	// 时区初始化
+	$("#time_zone").find("option[value=[[${settings.time_zone}]]]").attr("selected",true);
+	
+	// 站点状态初始化
+	if([[${settings.site_status}]] == "1"){
+		$("#site_status1").attr("checked","checked")
+		$("#site_status0").removeAttr("checked");
+		$("#lbl_site_status1").removeClass();
+		$("#lbl_site_status1").addClass("cb-enable selected");
+		$("#lbl_site_status0").removeClass();
+		$("#lbl_site_status0").addClass("cb-disable"); 
+	}else{
+		$("#site_status0").attr("checked","checked")
+		$("#site_status1").removeAttr("checked");
+		$("#lbl_site_status0").removeClass();
+		$("#lbl_site_status0").addClass("cb-disable selected");
+		$("#lbl_site_status1").removeClass();
+		$("#lbl_site_status1").addClass("cb-enable");
+	}
 });
+
+// 站点状态切换
+function statusSelect(index){
+	if(index==0){
+		// 关闭
+		$("#site_status0").attr("checked","checked")
+		$("#site_status1").removeAttr("checked");
+	}else{
+		// 打开
+		$("#site_status1").attr("checked","checked")
+		$("#site_status0").removeAttr("checked");
+	}
+}
+/*]]>*/
 </script>
 </body>
 </html>

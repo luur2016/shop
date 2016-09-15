@@ -223,7 +223,8 @@ function addFavorite(url, title) {
 <div id="dialog" style="display:none">
   <div class="title">
     <h3>管理中心导航</h3>
-    <span><a href="JavaScript:void(0);" onclick="closeBg();">关闭</a></span> </div>
+    <span><a href="JavaScript:void(0);" onclick="closeBg();">关闭</a></span> 
+  </div>
   <div class="content">
   	<dl>
   	<dt>设置</dt>
@@ -441,11 +442,12 @@ function addFavorite(url, title) {
             </div>
           </div>
         </div>
-        <div > </div></td>
+        <div > </div>
+      </td>
     </tr>
     <tr>
-      <td class="menutd" valign="top" width="161"><div id="mainMenu" class="main-menu">
-          
+      <td class="menutd" valign="top" width="161">
+      	<div id="mainMenu" class="main-menu">
           <ul id="sort_dashboard">
             <li>
               <dl>
@@ -728,7 +730,11 @@ function addFavorite(url, title) {
               </dl>
             </li>
           </ul>
-      <td valign="top" width="100%"><iframe src="" id="workspace" name="workspace" style="overflow: visible;" frameborder="0" width="100%" height="100%" scrolling="yes" onload="window.parent"></iframe></td>
+      	</div>
+      </td>
+      <td valign="top" width="100%">
+      	<iframe src="" id="workspace" name="workspace" style="overflow: visible;" frameborder="0" width="100%" height="100%" scrolling="yes" onload="window.parent"></iframe>
+      </td>
     </tr>
   </tbody>
 </table>

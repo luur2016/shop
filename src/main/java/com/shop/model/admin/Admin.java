@@ -1,8 +1,17 @@
 package com.shop.model.admin;
 
+import javax.persistence.Table;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Table(name="club_admin")
 public class Admin {
 	private int admin_id;
 	private String admin_name;
