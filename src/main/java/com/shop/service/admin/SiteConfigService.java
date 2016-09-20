@@ -3,9 +3,13 @@ package com.shop.service.admin;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.shop.config.Config;
 import com.shop.dto.SettingDTO;
 import com.shop.mapper.admin.SettingMapper;
 import com.shop.model.admin.Setting;
@@ -15,6 +19,8 @@ public class SiteConfigService {
 
   @Autowired
   SettingMapper settingMapper;
+  @Autowired
+  Config config;
 
   /**
    * 获取所有设置
@@ -22,6 +28,9 @@ public class SiteConfigService {
    * @return
    */
   public SettingDTO getAllSiteConfigs() {
+    
+    String uploadPath = config.getUpload();
+    
     List<Setting> settings = settingMapper.selectAll();
     SettingDTO settingDTO = new SettingDTO();
     for (Setting setting : settings) {
@@ -29,15 +38,15 @@ public class SiteConfigService {
       if ("site_name".equals(name))
         settingDTO.setSite_name(setting.getValue());
       if ("site_logo".equals(name))
-        settingDTO.setSite_logo(setting.getValue());
+        settingDTO.setSite_logo(uploadPath + setting.getValue());
       if ("site_mobile_logo".equals(name))
-        settingDTO.setSite_mobile_logo(setting.getValue());
+        settingDTO.setSite_mobile_logo(uploadPath + setting.getValue());
       if ("site_logowx".equals(name))
-        settingDTO.setSite_logowx(setting.getValue());
+        settingDTO.setSite_logowx(uploadPath + setting.getValue());
       if ("member_logo".equals(name))
-        settingDTO.setMember_logo(setting.getValue());
+        settingDTO.setMember_logo(uploadPath + setting.getValue());
       if ("seller_center_logo".equals(name))
-        settingDTO.setSeller_center_logo(setting.getValue());
+        settingDTO.setSeller_center_logo(uploadPath + setting.getValue());
       if ("time_zone".equals(name))
         settingDTO.setTime_zone(setting.getValue());
       if ("site_phone".equals(name))
@@ -60,8 +69,10 @@ public class SiteConfigService {
     return settingDTO;
   }
 
+  @Transactional
   public boolean addSiteConfigs(SettingDTO settingDto){
     
+    boolean isOk = false;
     List<Setting> settings = new ArrayList<Setting>();
     
     Setting site_name = Setting.builder().name("site_name").value(settingDto.getSite_name()).build();
@@ -79,7 +90,31 @@ public class SiteConfigService {
     Setting site_status = Setting.builder().name("site_status").value(settingDto.getSite_status()).build();
     Setting closed_reason = Setting.builder().name("closed_reason").value(settingDto.getClosed_reason()).build();
     
+    settings.add(site_name);
+    settings.add(site_logo);
+    settings.add(site_mobile_logo);
+    settings.add(site_logowx);
+    settings.add(member_logo);
+    settings.add(time_zone);
+    settings.add(site_phone);
+    settings.add(site_bank_account);
+    settings.add(site_email);
+    settings.add(statistics_code);
+    settings.add(icp_number);
+    settings.add(site_tel400);
+    settings.add(site_status);
+    settings.add(closed_reason);
     
-    return false;
+    for(Setting setting : settings){
+      if(setting.getValue() == null || setting.getValue().isEmpty()){
+        continue;
+      }else{
+        int result = settingMapper.updateSettingInfo(setting.getValue(), setting.getName());
+        if (result <= 0)
+            throw new RuntimeException("数据保存异常！");
+      } 
+    }
+    isOk = true;
+    return isOk;
   }
 }

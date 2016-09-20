@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.shop.config.Config;
 import com.shop.dto.SettingDTO;
 import com.shop.service.admin.SiteConfigService;
 import com.shop.tools.FileUpload;
@@ -19,6 +20,8 @@ public class SiteConfigController {
 
   @Autowired
   SiteConfigService siteConfigService;
+  @Autowired
+  Config config;
 
   /**
    * 站点设置
@@ -35,10 +38,10 @@ public class SiteConfigController {
   @RequestMapping(value = "/siteconfig", method = RequestMethod.POST)
   public String saveSiteConfig(SettingDTO settingDto, MultipartFile site_logo_file,
       MultipartFile seller_center_logo_file, MultipartFile site_mobile_logo_file,
-      MultipartFile site_logowx_file, MultipartFile member_logo_file, HttpServletRequest request) {
+      MultipartFile site_logowx_file, MultipartFile member_logo_file, 
+      HttpServletRequest request,Model model) {
     
-    String path = request.getSession().getServletContext().getRealPath("/");
-    String uploadPath = path + "/data/upload/";
+    String uploadPath = config.getUpload();
     
     // site_logo
     if (!site_logo_file.isEmpty()) {
@@ -71,9 +74,13 @@ public class SiteConfigController {
     }
     
     // save data
+    if(!siteConfigService.addSiteConfigs(settingDto)){
+      model.addAttribute("info","数据保存出现异常，请稍后重试！");
+      model.addAttribute("url", "/admin/config/siteconfig");
+      return "errorinfo";
+    }
     
-    
-    return "redirect:/siteconfig";
+    return "redirect:/admin/config/siteconfig";
   }
 
   /**

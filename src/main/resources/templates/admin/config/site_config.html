@@ -67,7 +67,8 @@ if (cookie_skin) {
           	<span class="type-file-show">
           		<img class="show_image" th:src="@{/admin/templates/default/images/preview.png}" />
             	<div class="type-file-preview">
-            		<img th:src="@{'/data/upload/shop/common/'+${settings.site_logo}}"/>
+            		<!-- <img th:src="@{${settings.site_logo}}"/> -->
+            		<img th:src="D:\upload\QQ截图20160421110321.png"/>
             	</div>
             </span>
             <span class="type-file-box">
@@ -85,7 +86,7 @@ if (cookie_skin) {
           <td class="vatop rowform">
           	<span class="type-file-show">
 	          	<img class="show_image" th:src="@{/admin/templates/default/images/preview.png}" />
-	            <div class="type-file-preview"><img th:src="@{'/data/upload/shop/common/'+${settings.member_logo}}" /></div>
+	            <div class="type-file-preview"><img th:src="${settings.member_logo}" /></div>
             </span>
             <span class="type-file-box"><input type='text' name='textfield2' id='textfield2' class='type-file-text' />
 	            <input type='button' name='button2' id='button2' value='' class='type-file-button' />
@@ -102,7 +103,7 @@ if (cookie_skin) {
           <td class="vatop rowform">
           	<span class="type-file-show">
 	            <img class="show_image" th:src="@{/admin/templates/default/images/preview.png}" />
-	            <div class="type-file-preview"><img th:src="@{'/data/upload/shop/common/'+${settings.seller_center_logo}}" /></div>
+	            <div class="type-file-preview"><img th:src="${settings.seller_center_logo}" /></div>
             </span>
             <span class="type-file-box"><input type='text' name='textfield' id='textfield3' class='type-file-text' />
 	            <input type='button' name='button' id='button1' value='' class='type-file-button' />
@@ -120,7 +121,7 @@ if (cookie_skin) {
           <td class="vatop rowform">
           	<span class="type-file-show">
 	          	<img class="show_image" th:src="@{/admin/templates/default/images/preview.png}" />
-	            <div class="type-file-preview" style="background-color:red"><img th:src="@{'/data/upload/shop/common/'+${settings.site_mobile_logo}}" /></div>
+	            <div class="type-file-preview" style="background-color:red"><img th:src="${settings.site_mobile_logo}" /></div>
             </span>
             <span class="type-file-box"><input type='text' name='textfield' id='textfield8' class='type-file-text' />
 	            <input type='button' name='button' id='button1' value='' class='type-file-button' />
@@ -137,7 +138,7 @@ if (cookie_skin) {
           <td class="vatop rowform">
           	<span class="type-file-show">
 	          	<img class="show_image" th:src="@{/admin/templates/default/images/preview.png}"/>
-	            <div class="type-file-preview"><img th:src="@{'/data/upload/shop/common/'+${settings.site_logowx}}"/></div>
+	            <div class="type-file-preview"><img th:src="${settings.site_logowx}"/></div>
             </span>
             <span class="type-file-box"><input type='text' name='textfield' id='textfield5' class='type-file-text' />
 	            <input type='button' name='button' id='button1' value='' class='type-file-button' />
