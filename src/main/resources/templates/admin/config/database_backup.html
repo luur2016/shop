@@ -1,10 +1,1126 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge;chrome=1" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>数据备份</title>
+<script type="text/javascript" th:src="@{/data/resource/js/jquery.js}"></script>
+<script type="text/javascript" th:src="@{/data/resource/js/jquery.validation.min.js}"></script>
+<script type="text/javascript" th:src="@{/data/resource/js/admincp.js}"></script>
+<script type="text/javascript" th:src="@{/data/resource/js/jquery.cookie.js}"></script>
+<script type="text/javascript" th:src="@{/data/resource/js/common.js}" charset="utf-8"></script>
+<link th:href="@{/admin/templates/default/css/skin_1.css}" rel="stylesheet" type="text/css" id="cssfile2" />
+<link th:href="@{/data/resource/js/perfect-scrollbar.min.css}" rel="stylesheet" type="text/css" />
+<link th:href="@{/admin/templates/default/css/font/font-awesome/css/font-awesome.min.css}" rel="stylesheet" />
+<!--[if IE 7]>
+  <link rel="stylesheet" href="http://localhost:8090/shopnc/admin/templates/default/css/font/font-awesome/css/font-awesome-ie7.min.css">
+<![endif]-->
+<script type="text/javascript" th:src="@{/data/resource/js/perfect-scrollbar.min.js}"></script>
+
+<script type="text/javascript">
+SITEURL = 'http://localhost:8090/shopnc/shop';
+RESOURCE_SITE_URL = 'http://localhost:8090/shopnc/data/resource';
+MICROSHOP_SITE_URL = 'http://localhost:8090/shopnc/microshop';
+CIRCLE_SITE_URL = 'http://localhost:8090/shopnc/circle';
+ADMIN_TEMPLATES_URL = 'http://localhost:8090/shopnc/admin/templates/default';
+LOADING_IMAGE = "http://localhost:8090/shopnc/admin/templates/default/images/loading.gif";
+//换肤
+cookie_skin = $.cookie("MyCssSkin");
+if (cookie_skin) {
+	$('#cssfile2').attr("href","http://localhost:8090/shopnc/admin/templates/default/css/"+ cookie_skin +".css");
+}
+</script>
 </head>
 <body>
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
 
-</body>
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title">
+      <h3>数据库</h3>
+      <ul class="tab-base">
+        <li><a href="JavaScript:void(0);" class="current"><span>备份</span></a></li>
+        <!--<li><a href="index.php?act=db&op=db_restore" ><span>恢复</span></a></li>-->
+      </ul>
+    </div>
+  </div>
+  <div class="fixed-empty"></div>
+  <table class="table tb-type2" id="prompt">
+    <tbody>
+      <tr class="space odd">
+        <th class="nobg" colspan="12"><div class="title"><h5>操作提示</h5><span class="arrow"></span></div></th>
+      </tr>
+      <tr>
+        <td>
+        <ul>
+            <li>数据备份功能根据你的选择备份全部数据或指定数据，导出的数据文件可用“数据恢复”功能或 phpMyAdmin 导入</li>
+            <li>建议定期备份数据库</li>
+          </ul></td>
+      </tr>
+    </tbody>
+  </table>
+  <form method="post" id="db_form">
+    <input type="hidden" name="form_submit" value="ok" />
+    <table class="table tb-type2">
+      <tbody>
+        <tr class="noborder">
+          <td colspan="2" class="required"><label>备份方式:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><ul class="nofloat">
+              <li>
+                <input type="radio" checked="checked" value="all" id="backup_all" name="backup_type" />
+                <label for="backup_all">备份全部数据</label>
+              </li>
+              <li>
+                <input type="radio" value="custom" id="backup_custom" name="backup_type" />
+                <label for="backup_custom">备份选定的表</label>
+              </li>
+            </ul></td>
+          <td class="vatop tips"></td>
+        </tr>
+      </tbody>
+      <tbody style="display:none;" id="tables">
+        <tr>
+          <td colspan="2" class="required" >数据表</td>
+        </tr>
+        <tr class="noborder">
+          <td colspan="2" class="vatop rowform"><input type="checkbox" class="checkall" id="checkall" />
+            &nbsp;
+            <label for="checkall">全选</label></td>
+        </tr>
+        <tr id="input">
+          <td colspan="2" class="vatop rowform"><ul class="nofloat w830">
+                                          <li class="left w25pre">
+                <input type="checkbox" value="club_activity" class="checkitem" name="tables[]" />
+                <label>club_activity</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_activity_detail" class="checkitem" name="tables[]" />
+                <label>club_activity_detail</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_address" class="checkitem" name="tables[]" />
+                <label>club_address</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_admin" class="checkitem" name="tables[]" />
+                <label>club_admin</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_admin_log" class="checkitem" name="tables[]" />
+                <label>club_admin_log</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_adv" class="checkitem" name="tables[]" />
+                <label>club_adv</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_adv_click" class="checkitem" name="tables[]" />
+                <label>club_adv_click</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_adv_position" class="checkitem" name="tables[]" />
+                <label>club_adv_position</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_album_class" class="checkitem" name="tables[]" />
+                <label>club_album_class</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_album_pic" class="checkitem" name="tables[]" />
+                <label>club_album_pic</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_area" class="checkitem" name="tables[]" />
+                <label>club_area</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_arrival_notice" class="checkitem" name="tables[]" />
+                <label>club_arrival_notice</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_article" class="checkitem" name="tables[]" />
+                <label>club_article</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_article_class" class="checkitem" name="tables[]" />
+                <label>club_article_class</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_attribute" class="checkitem" name="tables[]" />
+                <label>club_attribute</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_attribute_value" class="checkitem" name="tables[]" />
+                <label>club_attribute_value</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_brand" class="checkitem" name="tables[]" />
+                <label>club_brand</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_cart" class="checkitem" name="tables[]" />
+                <label>club_cart</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_chat_log" class="checkitem" name="tables[]" />
+                <label>club_chat_log</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_chat_msg" class="checkitem" name="tables[]" />
+                <label>club_chat_msg</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_circle" class="checkitem" name="tables[]" />
+                <label>club_circle</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_circle_affix" class="checkitem" name="tables[]" />
+                <label>club_circle_affix</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_circle_class" class="checkitem" name="tables[]" />
+                <label>club_circle_class</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_circle_explog" class="checkitem" name="tables[]" />
+                <label>club_circle_explog</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_circle_expmember" class="checkitem" name="tables[]" />
+                <label>club_circle_expmember</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_circle_exptheme" class="checkitem" name="tables[]" />
+                <label>club_circle_exptheme</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_circle_fs" class="checkitem" name="tables[]" />
+                <label>club_circle_fs</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_circle_inform" class="checkitem" name="tables[]" />
+                <label>club_circle_inform</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_circle_like" class="checkitem" name="tables[]" />
+                <label>club_circle_like</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_circle_mapply" class="checkitem" name="tables[]" />
+                <label>club_circle_mapply</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_circle_member" class="checkitem" name="tables[]" />
+                <label>club_circle_member</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_circle_ml" class="checkitem" name="tables[]" />
+                <label>club_circle_ml</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_circle_mldefault" class="checkitem" name="tables[]" />
+                <label>club_circle_mldefault</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_circle_mlref" class="checkitem" name="tables[]" />
+                <label>club_circle_mlref</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_circle_recycle" class="checkitem" name="tables[]" />
+                <label>club_circle_recycle</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_circle_thclass" class="checkitem" name="tables[]" />
+                <label>club_circle_thclass</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_circle_theme" class="checkitem" name="tables[]" />
+                <label>club_circle_theme</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_circle_thg" class="checkitem" name="tables[]" />
+                <label>club_circle_thg</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_circle_thpoll" class="checkitem" name="tables[]" />
+                <label>club_circle_thpoll</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_circle_thpolloption" class="checkitem" name="tables[]" />
+                <label>club_circle_thpolloption</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_circle_thpollvoter" class="checkitem" name="tables[]" />
+                <label>club_circle_thpollvoter</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_circle_threply" class="checkitem" name="tables[]" />
+                <label>club_circle_threply</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_cms_article" class="checkitem" name="tables[]" />
+                <label>club_cms_article</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_cms_article_attitude" class="checkitem" name="tables[]" />
+                <label>club_cms_article_attitude</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_cms_article_class" class="checkitem" name="tables[]" />
+                <label>club_cms_article_class</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_cms_comment" class="checkitem" name="tables[]" />
+                <label>club_cms_comment</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_cms_comment_up" class="checkitem" name="tables[]" />
+                <label>club_cms_comment_up</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_cms_index_module" class="checkitem" name="tables[]" />
+                <label>club_cms_index_module</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_cms_module" class="checkitem" name="tables[]"/>
+                <label>club_cms_module</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_cms_module_assembly" class="checkitem" name="tables[]"/>
+                <label>club_cms_module_assembly</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_cms_module_frame" class="checkitem" name="tables[]"/>
+                <label>club_cms_module_frame</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_cms_navigation" class="checkitem" name="tables[]"/>
+                <label>club_cms_navigation</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_cms_picture" class="checkitem" name="tables[]"/>
+                <label>club_cms_picture</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_cms_picture_class" class="checkitem" name="tables[]"/>
+                <label>club_cms_picture_class</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_cms_picture_image" class="checkitem" name="tables[]"/>
+                <label>club_cms_picture_image</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_cms_special" class="checkitem" name="tables[]"/>
+                <label>club_cms_special</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_cms_tag" class="checkitem" name="tables[]"/>
+                <label>club_cms_tag</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_cms_tag_relation" class="checkitem" name="tables[]"/>
+                <label>club_cms_tag_relation</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_complain" class="checkitem" name="tables[]"/>
+                <label>club_complain</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_complain_subject" class="checkitem" name="tables[]"/>
+                <label>club_complain_subject</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_complain_talk" class="checkitem" name="tables[]"/>
+                <label>club_complain_talk</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_consult" class="checkitem" name="tables[]"/>
+                <label>club_consult</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_consult_type" class="checkitem" name="tables[]"/>
+                <label>club_consult_type</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_cron" class="checkitem" name="tables[]"/>
+                <label>club_cron</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_daddress" class="checkitem" name="tables[]"/>
+                <label>club_daddress</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_delivery_order" class="checkitem" name="tables[]"/>
+                <label>club_delivery_order</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_delivery_point" class="checkitem" name="tables[]"/>
+                <label>club_delivery_point</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_document" class="checkitem" name="tables[]"/>
+                <label>club_document</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_evaluate_goods" class="checkitem" name="tables[]"/>
+                <label>club_evaluate_goods</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_evaluate_store" class="checkitem" name="tables[]"/>
+                <label>club_evaluate_store</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_exppoints_log" class="checkitem" name="tables[]"/>
+                <label>club_exppoints_log</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_express" class="checkitem" name="tables[]"/>
+                <label>club_express</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_favorites" class="checkitem" name="tables[]"/>
+                <label>club_favorites</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_flea" class="checkitem" name="tables[]"/>
+                <label>club_flea</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_flea_area" class="checkitem" name="tables[]"/>
+                <label>club_flea_area</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_flea_class" class="checkitem" name="tables[]"/>
+                <label>club_flea_class</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_flea_class_index" class="checkitem" name="tables[]"/>
+                <label>club_flea_class_index</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_flea_consult" class="checkitem" name="tables[]"/>
+                <label>club_flea_consult</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_flea_favorites" class="checkitem" name="tables[]"/>
+                <label>club_flea_favorites</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_flea_upload" class="checkitem" name="tables[]"/>
+                <label>club_flea_upload</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_flowstat" class="checkitem" name="tables[]"/>
+                <label>club_flowstat</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_flowstat_1" class="checkitem" name="tables[]"/>
+                <label>club_flowstat_1</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_flowstat_2" class="checkitem" name="tables[]"/>
+                <label>club_flowstat_2</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_gadmin" class="checkitem" name="tables[]"/>
+                <label>club_gadmin</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_goods" class="checkitem" name="tables[]"/>
+                <label>club_goods</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_goods_attr_index" class="checkitem" name="tables[]"/>
+                <label>club_goods_attr_index</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_goods_browse" class="checkitem" name="tables[]"/>
+                <label>club_goods_browse</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_goods_class" class="checkitem" name="tables[]"/>
+                <label>club_goods_class</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_goods_class_nav" class="checkitem" name="tables[]"/>
+                <label>club_goods_class_nav</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_goods_class_staple" class="checkitem" name="tables[]"/>
+                <label>club_goods_class_staple</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_goods_class_tag" class="checkitem" name="tables[]"/>
+                <label>club_goods_class_tag</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_goods_combo" class="checkitem" name="tables[]"/>
+                <label>club_goods_combo</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_goods_common" class="checkitem" name="tables[]"/>
+                <label>club_goods_common</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_goods_fcode" class="checkitem" name="tables[]"/>
+                <label>club_goods_fcode</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_goods_gift" class="checkitem" name="tables[]"/>
+                <label>club_goods_gift</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_goods_images" class="checkitem" name="tables[]"/>
+                <label>club_goods_images</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_groupbuy" class="checkitem" name="tables[]"/>
+                <label>club_groupbuy</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_groupbuy_class" class="checkitem" name="tables[]"/>
+                <label>club_groupbuy_class</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_groupbuy_price_range" class="checkitem" name="tables[]"/>
+                <label>club_groupbuy_price_range</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_groupbuy_quota" class="checkitem" name="tables[]"/>
+                <label>club_groupbuy_quota</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_help" class="checkitem" name="tables[]"/>
+                <label>club_help</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_help_type" class="checkitem" name="tables[]"/>
+                <label>club_help_type</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_inform" class="checkitem" name="tables[]"/>
+                <label>club_inform</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_inform_subject" class="checkitem" name="tables[]"/>
+                <label>club_inform_subject</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_inform_subject_type" class="checkitem" name="tables[]"/>
+                <label>club_inform_subject_type</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_invoice" class="checkitem" name="tables[]"/>
+                <label>club_invoice</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_link" class="checkitem" name="tables[]"/>
+                <label>club_link</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_live_area" class="checkitem" name="tables[]"/>
+                <label>club_live_area</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_live_class" class="checkitem" name="tables[]"/>
+                <label>club_live_class</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_live_groupbuy" class="checkitem" name="tables[]"/>
+                <label>club_live_groupbuy</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_live_order" class="checkitem" name="tables[]"/>
+                <label>club_live_order</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_live_order_pwd" class="checkitem" name="tables[]"/>
+                <label>club_live_order_pwd</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_lock" class="checkitem" name="tables[]"/>
+                <label>club_lock</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_mail_cron" class="checkitem" name="tables[]"/>
+                <label>club_mail_cron</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_mail_msg_temlates" class="checkitem" name="tables[]"/>
+                <label>club_mail_msg_temlates</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_mall_consult" class="checkitem" name="tables[]"/>
+                <label>club_mall_consult</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_mall_consult_type" class="checkitem" name="tables[]"/>
+                <label>club_mall_consult_type</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_mb_category" class="checkitem" name="tables[]"/>
+                <label>club_mb_category</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_mb_feedback" class="checkitem" name="tables[]"/>
+                <label>club_mb_feedback</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_mb_payment" class="checkitem" name="tables[]"/>
+                <label>club_mb_payment</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_mb_special" class="checkitem" name="tables[]"/>
+                <label>club_mb_special</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_mb_special_item" class="checkitem" name="tables[]"/>
+                <label>club_mb_special_item</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_mb_user_token" class="checkitem" name="tables[]"/>
+                <label>club_mb_user_token</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_member" class="checkitem" name="tables[]"/>
+                <label>club_member</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_member_common" class="checkitem" name="tables[]"/>
+                <label>club_member_common</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_member_msg_setting" class="checkitem" name="tables[]"/>
+                <label>club_member_msg_setting</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_member_msg_tpl" class="checkitem" name="tables[]"/>
+                <label>club_member_msg_tpl</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_message" class="checkitem" name="tables[]"/>
+                <label>club_message</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_micro_adv" class="checkitem" name="tables[]"/>
+                <label>club_micro_adv</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_micro_comment" class="checkitem" name="tables[]"/>
+                <label>club_micro_comment</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_micro_goods" class="checkitem" name="tables[]"/>
+                <label>club_micro_goods</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_micro_goods_class" class="checkitem" name="tables[]"/>
+                <label>club_micro_goods_class</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_micro_goods_relation" class="checkitem" name="tables[]"/>
+                <label>club_micro_goods_relation</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_micro_like" class="checkitem" name="tables[]"/>
+                <label>club_micro_like</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_micro_member_info" class="checkitem" name="tables[]"/>
+                <label>club_micro_member_info</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_micro_personal" class="checkitem" name="tables[]"/>
+                <label>club_micro_personal</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_micro_personal_class" class="checkitem" name="tables[]"/>
+                <label>club_micro_personal_class</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_micro_store" class="checkitem" name="tables[]"/>
+                <label>club_micro_store</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_navigation" class="checkitem" name="tables[]"/>
+                <label>club_navigation</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_offpay_area" class="checkitem" name="tables[]"/>
+                <label>club_offpay_area</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_order" class="checkitem" name="tables[]"/>
+                <label>club_order</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_order_bill" class="checkitem" name="tables[]"/>
+                <label>club_order_bill</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_order_common" class="checkitem" name="tables[]"/>
+                <label>club_order_common</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_order_goods" class="checkitem" name="tables[]"/>
+                <label>club_order_goods</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_order_log" class="checkitem" name="tables[]"/>
+                <label>club_order_log</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_order_pay" class="checkitem" name="tables[]"/>
+                <label>club_order_pay</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_order_statis" class="checkitem" name="tables[]"/>
+                <label>club_order_statis</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_p_booth_goods" class="checkitem" name="tables[]"/>
+                <label>club_p_booth_goods</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_p_booth_quota" class="checkitem" name="tables[]"/>
+                <label>club_p_booth_quota</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_p_bundling" class="checkitem" name="tables[]"/>
+                <label>club_p_bundling</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_p_bundling_goods" class="checkitem" name="tables[]"/>
+                <label>club_p_bundling_goods</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_p_bundling_quota" class="checkitem" name="tables[]"/>
+                <label>club_p_bundling_quota</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_p_mansong" class="checkitem" name="tables[]"/>
+                <label>club_p_mansong</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_p_mansong_quota" class="checkitem" name="tables[]"/>
+                <label>club_p_mansong_quota</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_p_mansong_rule" class="checkitem" name="tables[]"/>
+                <label>club_p_mansong_rule</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_p_xianshi" class="checkitem" name="tables[]"/>
+                <label>club_p_xianshi</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_p_xianshi_goods" class="checkitem" name="tables[]"/>
+                <label>club_p_xianshi_goods</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_p_xianshi_quota" class="checkitem" name="tables[]"/>
+                <label>club_p_xianshi_quota</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_payment" class="checkitem" name="tables[]"/>
+                <label>club_payment</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_pd_cash" class="checkitem" name="tables[]"/>
+                <label>club_pd_cash</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_pd_log" class="checkitem" name="tables[]"/>
+                <label>club_pd_log</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_pd_recharge" class="checkitem" name="tables[]"/>
+                <label>club_pd_recharge</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_points_cart" class="checkitem" name="tables[]"/>
+                <label>club_points_cart</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_points_goods" class="checkitem" name="tables[]"/>
+                <label>club_points_goods</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_points_log" class="checkitem" name="tables[]"/>
+                <label>club_points_log</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_points_order" class="checkitem" name="tables[]"/>
+                <label>club_points_order</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_points_orderaddress" class="checkitem" name="tables[]"/>
+                <label>club_points_orderaddress</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_points_ordergoods" class="checkitem" name="tables[]"/>
+                <label>club_points_ordergoods</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_rcb_log" class="checkitem" name="tables[]"/>
+                <label>club_rcb_log</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_rec_position" class="checkitem" name="tables[]"/>
+                <label>club_rec_position</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_rechargecard" class="checkitem" name="tables[]"/>
+                <label>club_rechargecard</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_red_packet" class="checkitem" name="tables[]"/>
+                <label>club_red_packet</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_red_packet_list" class="checkitem" name="tables[]"/>
+                <label>club_red_packet_list</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_red_packet_rec" class="checkitem" name="tables[]"/>
+                <label>club_red_packet_rec</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_refund_reason" class="checkitem" name="tables[]"/>
+                <label>club_refund_reason</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_refund_return" class="checkitem" name="tables[]"/>
+                <label>club_refund_return</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_seller" class="checkitem" name="tables[]"/>
+                <label>club_seller</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_seller_group" class="checkitem" name="tables[]"/>
+                <label>club_seller_group</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_seller_log" class="checkitem" name="tables[]"/>
+                <label>club_seller_log</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_seo" class="checkitem" name="tables[]"/>
+                <label>club_seo</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_setting" class="checkitem" name="tables[]"/>
+                <label>club_setting</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_sms_log" class="checkitem" name="tables[]"/>
+                <label>club_sms_log</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_sns_albumclass" class="checkitem" name="tables[]"/>
+                <label>club_sns_albumclass</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_sns_albumpic" class="checkitem" name="tables[]"/>
+                <label>club_sns_albumpic</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_sns_binding" class="checkitem" name="tables[]"/>
+                <label>club_sns_binding</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_sns_comment" class="checkitem" name="tables[]"/>
+                <label>club_sns_comment</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_sns_friend" class="checkitem" name="tables[]"/>
+                <label>club_sns_friend</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_sns_goods" class="checkitem" name="tables[]"/>
+                <label>club_sns_goods</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_sns_membertag" class="checkitem" name="tables[]"/>
+                <label>club_sns_membertag</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_sns_mtagmember" class="checkitem" name="tables[]"/>
+                <label>club_sns_mtagmember</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_sns_setting" class="checkitem" name="tables[]"/>
+                <label>club_sns_setting</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_sns_sharegoods" class="checkitem" name="tables[]"/>
+                <label>club_sns_sharegoods</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_sns_sharestore" class="checkitem" name="tables[]"/>
+                <label>club_sns_sharestore</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_sns_tracelog" class="checkitem" name="tables[]"/>
+                <label>club_sns_tracelog</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_sns_visitor" class="checkitem" name="tables[]"/>
+                <label>club_sns_visitor</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_spec" class="checkitem" name="tables[]"/>
+                <label>club_spec</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_spec_value" class="checkitem" name="tables[]"/>
+                <label>club_spec_value</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_stat_member" class="checkitem" name="tables[]"/>
+                <label>club_stat_member</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_stat_order" class="checkitem" name="tables[]"/>
+                <label>club_stat_order</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_stat_ordergoods" class="checkitem" name="tables[]"/>
+                <label>club_stat_ordergoods</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_store" class="checkitem" name="tables[]"/>
+                <label>club_store</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_store_area" class="checkitem" name="tables[]"/>
+                <label>club_store_area</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_store_bind_class" class="checkitem" name="tables[]"/>
+                <label>club_store_bind_class</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_store_class" class="checkitem" name="tables[]"/>
+                <label>club_store_class</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_store_cost" class="checkitem" name="tables[]"/>
+                <label>club_store_cost</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_store_decoration" class="checkitem" name="tables[]"/>
+                <label>club_store_decoration</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_store_decoration_album" class="checkitem" name="tables[]"/>
+                <label>club_store_decoration_album</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_store_decoration_block" class="checkitem" name="tables[]"/>
+                <label>club_store_decoration_block</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_store_extend" class="checkitem" name="tables[]"/>
+                <label>club_store_extend</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_store_goods_class" class="checkitem" name="tables[]"/>
+                <label>club_store_goods_class</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_store_grade" class="checkitem" name="tables[]"/>
+                <label>club_store_grade</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_store_joinin" class="checkitem" name="tables[]"/>
+                <label>club_store_joinin</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_store_msg" class="checkitem" name="tables[]"/>
+                <label>club_store_msg</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_store_msg_read" class="checkitem" name="tables[]"/>
+                <label>club_store_msg_read</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_store_msg_setting" class="checkitem" name="tables[]"/>
+                <label>club_store_msg_setting</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_store_msg_tpl" class="checkitem" name="tables[]"/>
+                <label>club_store_msg_tpl</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_store_navigation" class="checkitem" name="tables[]"/>
+                <label>club_store_navigation</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_store_plate" class="checkitem" name="tables[]"/>
+                <label>club_store_plate</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_store_reopen" class="checkitem" name="tables[]"/>
+                <label>club_store_reopen</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_store_sns_comment" class="checkitem" name="tables[]"/>
+                <label>club_store_sns_comment</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_store_sns_setting" class="checkitem" name="tables[]"/>
+                <label>club_store_sns_setting</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_store_sns_tracelog" class="checkitem" name="tables[]"/>
+                <label>club_store_sns_tracelog</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_store_watermark" class="checkitem" name="tables[]"/>
+                <label>club_store_watermark</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_store_waybill" class="checkitem" name="tables[]"/>
+                <label>club_store_waybill</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_transport" class="checkitem" name="tables[]"/>
+                <label>club_transport</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_transport_extend" class="checkitem" name="tables[]"/>
+                <label>club_transport_extend</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_type" class="checkitem" name="tables[]"/>
+                <label>club_type</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_type_brand" class="checkitem" name="tables[]"/>
+                <label>club_type_brand</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_type_spec" class="checkitem" name="tables[]"/>
+                <label>club_type_spec</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_upload" class="checkitem" name="tables[]"/>
+                <label>club_upload</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_voucher" class="checkitem" name="tables[]"/>
+                <label>club_voucher</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_voucher_price" class="checkitem" name="tables[]"/>
+                <label>club_voucher_price</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_voucher_quota" class="checkitem" name="tables[]"/>
+                <label>club_voucher_quota</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_voucher_template" class="checkitem" name="tables[]"/>
+                <label>club_voucher_template</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_vr_groupbuy_area" class="checkitem" name="tables[]"/>
+                <label>club_vr_groupbuy_area</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_vr_groupbuy_class" class="checkitem" name="tables[]"/>
+                <label>club_vr_groupbuy_class</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_vr_order" class="checkitem" name="tables[]"/>
+                <label>club_vr_order</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_vr_order_bill" class="checkitem" name="tables[]"/>
+                <label>club_vr_order_bill</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_vr_order_code" class="checkitem" name="tables[]"/>
+                <label>club_vr_order_code</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_vr_order_statis" class="checkitem" name="tables[]"/>
+                <label>club_vr_order_statis</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_vr_refund" class="checkitem" name="tables[]"/>
+                <label>club_vr_refund</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_waybill" class="checkitem" name="tables[]"/>
+                <label>club_waybill</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_web" class="checkitem" name="tables[]"/>
+                <label>club_web</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_web_channel" class="checkitem" name="tables[]"/>
+                <label>club_web_channel</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_web_code" class="checkitem" name="tables[]"/>
+                <label>club_web_code</label>
+              </li>
+                            <li class="left w25pre">
+                <input type="checkbox" value="club_web_special" class="checkitem" name="tables[]"/>
+                <label>club_web_special</label>
+              </li>
+                                        </ul></td>
+        </tr>
+      </tbody>
+      <tbody>
+      	<tr>
+          <td colspan="2" class="required"><label>分卷大小(kb):</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><input type="text" value="2048" name="file_size" class="txt"/></td>
+          <td class="vatop tips">分卷大小至少为10K</td>
+        </tr>
+        <tr>
+          <td colspan="2" class="required"><label>备份名:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><input type="text" value="20161120_1" name="backup_name" class="txt"/></td>
+          <td class="vatop tips">备份名字由1到20位数字、字母或下划线组成</td>
+        </tr>
+      </tbody>
+      <tfoot class="tfoot">
+        <tr>
+          <td colspan="2">
+          <a href="JavaScript:void(0);" class="btn" id="btn"><span>提交</span></a></td>
+        </tr>
+      </tfoot>
+    </table>
+  </form>
+</div>
+<script>
+$(document).ready(function(){
+	$('#backup_all').click(function(){
+		$('#tables').css('display','none');
+		$(".checkitem").attr("checked",true);
+	});
+	$('#backup_custom').click(function(){
+		$('#tables').css('display','');
+		$(".checkitem").attr("checked",false);
+	});
+	$('#btn').click(function(){
+		if(confirm('为保证数据完整性请确保您的站点处于关闭状态，您确定要马上执行当前操作吗?')){
+			$("#db_form").submit();
+		}else{
+			return false;
+		}
+	});
+});
+</script></body>
 </html>
