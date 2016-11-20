@@ -247,14 +247,14 @@ function addFavorite(url, title) {
   	</dl>
     <dl>
   	<dt>商品</dt>
-  	  	<dd><a href="javascript:void(0)" onclick="openItem('goods_class,goods_class,goods')">分类管理</a></dd>
-  	  	<dd><a href="javascript:void(0)" onclick="openItem('brand,brand,goods')">品牌管理</a></dd>
-  	  	<dd><a href="javascript:void(0)" onclick="openItem('goods,goods,goods','/admin/goodsmanage')">商品管理</a></dd>
-  	  	<dd><a href="javascript:void(0)" onclick="openItem('type,type,goods')">类型管理</a></dd>
-  	  	<dd><a href="javascript:void(0)" onclick="openItem('spec,spec,goods')">规格管理</a></dd>
-  	  	<dd><a href="javascript:void(0)" onclick="openItem('list,goods_album,goods')">图片空间</a></dd>
-  	  	<dd><a href="javascript:void(0)" onclick="openItem('index,web_channel,goods')">频道管理</a></dd>
-  	  	 </dl>
+  	  	<dd><a href="javascript:void(0)" onclick="openItem('goods_class,goods_class,goods','/admin/goodsmanage/classificationmanage')">分类管理</a></dd>
+  	  	<dd><a href="javascript:void(0)" onclick="openItem('brand,brand,goods','/admin/goodsmanage/brandmanage')">品牌管理</a></dd>
+  	  	<dd><a href="javascript:void(0)" onclick="openItem('goods,goods,goods','/admin/goodsmanage/goodsmanage')">商品管理</a></dd>
+  	  	<dd><a href="javascript:void(0)" onclick="openItem('type,type,goods','/admin/goodsmanage/typemanage')">类型管理</a></dd>
+  	  	<dd><a href="javascript:void(0)" onclick="openItem('spec,spec,goods','/admin/goodsmanage/specificationsmanage')">规格管理</a></dd>
+  	  	<dd><a href="javascript:void(0)" onclick="openItem('list,goods_album,goods','/admin/goodsmanage/imagespace')">图片空间</a></dd>
+  	  	<dd><a href="javascript:void(0)" onclick="openItem('index,web_channel,goods','/admin/goodsmanage/channelmanage')">频道管理</a></dd>
+  	</dl>
     <dl>
   	<dt>店铺</dt>
   	  	<dd><a href="javascript:void(0)" onclick="openItem('store,store,store','/admin/shopmanage')">店铺管理</a></dd>
@@ -410,7 +410,7 @@ function addFavorite(url, title) {
             <ul>
            		<li><a class="link actived" id="nav_dashboard" href="javascript:;" onclick="openItem('dashboard','/admin/console');"><span>控制台</span></a></li>
 				<li><a class="link" id="nav_setting" href="javascript:;" onclick="openItem('setting','/admin/config/siteconfig');"><span>设置</span></a></li>
-				<li><a class="link" id="nav_goods" href="javascript:;" onclick="openItem('goods');"><span>商品</span></a></li>
+				<li><a class="link" id="nav_goods" href="javascript:;" onclick="openItem('goods','/admin/goodsmanage/classificationmanage');"><span>商品</span></a></li>
 				<li><a class="link" id="nav_store" href="javascript:;" onclick="openItem('store');"><span>店铺</span></a></li>
 				<li><a class="link" id="nav_member" href="javascript:;" onclick="openItem('member');"><span>会员</span></a></li>
 				<li><a class="link" id="nav_trade" href="javascript:;" onclick="openItem('trade');"><span>交易</span></a></li>
@@ -458,7 +458,7 @@ function addFavorite(url, title) {
                     <li nc_type=''><a href="JavaScript:void(0);" name="item_basesetting" id="item_basesetting" onclick="openItem('base,setting,dashboard','/admin/config/siteconfig');">站点设置</a></li>
                     <li nc_type=''><a href="JavaScript:void(0);" name="item_membermember" id="item_membermember" onclick="openItem('member,member,dashboard','/admin/membermanage');">会员管理</a>
                     </li><li nc_type=''><a href="JavaScript:void(0);" name="item_storestore" id="item_storestore" onclick="openItem('store,store,dashboard','/admin/shopmanage');">店铺管理</a></li>
-                    <li nc_type=''><a href="JavaScript:void(0);" name="item_goodsgoods" id="item_goodsgoods" onclick="openItem('goods,goods,dashboard','/admin/goodsmanage');">商品管理</a></li>
+                    <li nc_type=''><a href="JavaScript:void(0);" name="item_goodsgoods" id="item_goodsgoods" onclick="openItem('goods,goods,dashboard','/admin/goodsmanage/goodsmanage');">商品管理</a></li>
                     <li nc_type=''><a href="JavaScript:void(0);" name="item_indexorder" id="item_indexorder" onclick="openItem('index,order,dashboard','/admin/ordermanage');">实物订单</a></li>
                   </ol>
                 </dd>
@@ -498,13 +498,13 @@ function addFavorite(url, title) {
               <dl>
                 <dd>
                   <ol>
-                    <li nc_type=''><a href="JavaScript:void(0);" name="item_goods_classgoods_class" id="item_goods_classgoods_class" onclick="openItem('goods_class,goods_class,goods');">分类管理</a></li>
-                    <li nc_type=''><a href="JavaScript:void(0);" name="item_brandbrand" id="item_brandbrand" onclick="openItem('brand,brand,goods');">品牌管理</a></li>
-                    <li nc_type=''><a href="JavaScript:void(0);" name="item_goodsgoods" id="item_goodsgoods" onclick="openItem('goods,goods,goods','/admin/goodsmanage');">商品管理</a></li
-                    ><li nc_type=''><a href="JavaScript:void(0);" name="item_typetype" id="item_typetype" onclick="openItem('type,type,goods');">类型管理</a></li>
-                    <li nc_type=''><a href="JavaScript:void(0);" name="item_specspec" id="item_specspec" onclick="openItem('spec,spec,goods');">规格管理</a></li>
-                    <li nc_type=''><a href="JavaScript:void(0);" name="item_listgoods_album" id="item_listgoods_album" onclick="openItem('list,goods_album,goods');">图片空间</a></li>
-                    <li nc_type=''><a href="JavaScript:void(0);" name="item_indexweb_channel" id="item_indexweb_channel" onclick="openItem('index,web_channel,goods');">频道管理</a></li>
+                    <li nc_type=''><a href="JavaScript:void(0);" name="item_goods_classgoods_class" id="item_goods_classgoods_class" onclick="openItem('goods_class,goods_class,goods','/admin/goodsmanage/classificationmanage');">分类管理</a></li>
+                    <li nc_type=''><a href="JavaScript:void(0);" name="item_brandbrand" id="item_brandbrand" onclick="openItem('brand,brand,goods','/admin/goodsmanage/brandmanage');">品牌管理</a></li>
+                    <li nc_type=''><a href="JavaScript:void(0);" name="item_goodsgoods" id="item_goodsgoods" onclick="openItem('goods,goods,goods','/admin/goodsmanage/goodsmanage');">商品管理</a></li>
+                    <li nc_type=''><a href="JavaScript:void(0);" name="item_typetype" id="item_typetype" onclick="openItem('type,type,goods','/admin/goodsmanage/typemanage');">类型管理</a></li>
+                    <li nc_type=''><a href="JavaScript:void(0);" name="item_specspec" id="item_specspec" onclick="openItem('spec,spec,goods','/admin/goodsmanage/specificationsmanage');">规格管理</a></li>
+                    <li nc_type=''><a href="JavaScript:void(0);" name="item_listgoods_album" id="item_listgoods_album" onclick="openItem('list,goods_album,goods','/admin/goodsmanage/imagespace');">图片空间</a></li>
+                    <li nc_type=''><a href="JavaScript:void(0);" name="item_indexweb_channel" id="item_indexweb_channel" onclick="openItem('index,web_channel,goods','/admin/goodsmanage/channelmanage');">频道管理</a></li>
                   </ol>
                 </dd>
               </dl>

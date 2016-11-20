@@ -1,4 +1,4 @@
-package com.shop.controller.admin;
+package com.shop.controller.admin.goods;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("admin/goodsmanage")
 public class GoodsManageController {
 
-	@RequestMapping("")
+	@RequestMapping("/goodsmanage")
 	public String index(){
 		return "admin/goodsmanage/goods_manage";
 	}
