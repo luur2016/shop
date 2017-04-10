@@ -1,0 +1,194 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge;chrome=1"/>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>测试站点</title>
+<script type="text/javascript" th:src="@{/data/resource/js/jquery.js}"></script>
+<script type="text/javascript" th:src="@{/data/resource/js/jquery.validation.min.js}"></script>
+<script type="text/javascript" th:src="@{/data/resource/js/admincp.js}"></script>
+<script type="text/javascript" th:src="@{/data/resource/js/jquery.cookie.js}"></script>
+<script type="text/javascript" th:src="@{/data/resource/js/common.js}" charset="utf-8"></script>
+<link th:href="@{/admin/templates/default/css/skin_1.css}" rel="stylesheet" type="text/css" id="cssfile2" />
+<link th:href="@{/data/resource/js/perfect-scrollbar.min.css}" rel="stylesheet" type="text/css"/>
+<link th:href="@{/admin/templates/default/css/font/font-awesome/css/font-awesome.min.css}" rel="stylesheet" />
+<!--[if IE 7]>
+  <link rel="stylesheet" th:href="@{/admin/templates/default/css/font/font-awesome/css/font-awesome-ie7.min.css}">
+<![endif]-->
+<script type="text/javascript" th:src="@{/data/resource/js/perfect-scrollbar.min.js}"></script>
+
+<script type="text/javascript">
+SITEURL = 'http://localhost:8090/shopnc/shop';
+RESOURCE_SITE_URL = 'http://localhost:8090/shopnc/data/resource';
+MICROSHOP_SITE_URL = 'http://localhost:8090/shopnc/microshop';
+CIRCLE_SITE_URL = 'http://localhost:8090/shopnc/circle';
+ADMIN_TEMPLATES_URL = 'http://localhost:8090/shopnc/admin/templates/default';
+LOADING_IMAGE = "http://localhost:8090/shopnc/admin/templates/default/images/loading.gif";
+//换肤
+cookie_skin = $.cookie("MyCssSkin");
+if (cookie_skin) {
+	$('#cssfile2').attr("href","http://localhost:8090/shopnc/admin/templates/default/css/"+ cookie_skin +".css");
+}
+</script>
+</head>
+<body>
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title">
+      <h3>店铺帮助</h3>
+      <ul class="tab-base">
+        <li><a href="JavaScript:void(0);" class="current"><span>帮助内容</span></a></li>
+        <li><a href="#"><span>帮助类型</span></a></li>
+        <li><a href="#"><span>新增内容</span></a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="fixed-empty"></div>
+  <form method="get" action="index.php" name="formSearch" id="formSearch">
+    <input type="hidden" name="act" value="help_store" />
+    <input type="hidden" name="op" value="help_store" />
+    <table class="tb-type1 noborder search">
+      <tbody>
+        <tr>
+        <th>帮助标题</th>
+        <td><input type="text" class="text" name="key" value="" /></td>
+          <th>帮助类型</th>
+          <td><select name="type_id" id="type_id">
+              <option value="">请选择...</option>
+              <option  value="91">规则体系</option>
+              <option  value="92">商品管理</option>
+              <option  value="93">促销方式</option>
+              <option  value="94">订单及售后</option>
+              <option  value="95">店铺续约</option>
+              <option  value="99">入驻流程</option>
+                                        </select></td>
+          <td><a href="javascript:void(0);" id="ncsubmit" class="btn-search " title="查询">&nbsp;</a>
+            </td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
+  <table class="table tb-type2" id="prompt">
+    <tbody>
+      <tr class="space odd">
+        <th colspan="12"><div class="title"><h5>操作提示</h5><span class="arrow"></span></div></th>
+      </tr>
+      <tr>
+        <td>
+        <ul>
+            <li>帮助内容排序显示规则为排序小的在前，新增内容的在前</li>
+          </ul></td>
+      </tr>
+    </tbody>
+  </table>
+    <table class="table tb-type2 nobdb">
+      <thead>
+        <tr class="thead">
+          <th>排序</th>
+          <th>帮助标题</th>
+          <th>帮助类型</th>
+          <th class="align-center">更新时间</th>
+          <th class="align-center">操作</th>
+        </tr>
+      </thead>
+      <tbody>
+                        <tr class="hover">
+          <td class="w48 sort">155</td>
+          <td>签署入驻协议</td>
+          <td>入驻流程</td>
+          <td class="w150 align-center">2014-02-21 10:32:12</td>
+          <td class="w150 align-center"><a href="#">编辑</a> |
+          	<a href="javascript:if(confirm('您确定要删除吗?')) window.location = '#';">删除</a></td>
+        </tr>
+                <tr class="hover">
+          <td class="w48 sort">156</td>
+          <td>商家信息提交</td>
+          <td>入驻流程</td>
+          <td class="w150 align-center">2014-02-21 10:32:41</td>
+          <td class="w150 align-center"><a href="#">编辑</a> |
+          	<a href="javascript:if(confirm('您确定要删除吗?')) window.location = '#';">删除</a></td>
+        </tr>
+                <tr class="hover">
+          <td class="w48 sort">157</td>
+          <td>平台审核资质</td>
+          <td>入驻流程</td>
+          <td class="w150 align-center">2014-02-21 10:33:11</td>
+          <td class="w150 align-center"><a href="#">编辑</a> |
+          	<a href="javascript:if(confirm('您确定要删除吗?')) window.location = '#';">删除</a></td>
+        </tr>
+                <tr class="hover">
+          <td class="w48 sort">158</td>
+          <td>商家缴纳费用</td>
+          <td>入驻流程</td>
+          <td class="w150 align-center">2014-02-21 10:33:51</td>
+          <td class="w150 align-center"><a href="#">编辑</a> |
+          	<a href="javascript:if(confirm('您确定要删除吗?')) window.location = '#';">删除</a></td>
+        </tr>
+                <tr class="hover">
+          <td class="w48 sort">159</td>
+          <td>店铺开通</td>
+          <td>入驻流程</td>
+          <td class="w150 align-center">2014-02-21 10:34:36</td>
+          <td class="w150 align-center"><a href="#">编辑</a> |
+          	<a href="javascript:if(confirm('您确定要删除吗?')) window.location = '#';">删除</a></td>
+        </tr>
+                <tr class="hover">
+          <td class="w48 sort">255</td>
+          <td>续约流程及费用</td>
+          <td>店铺续约</td>
+          <td class="w150 align-center">2014-02-21 10:45:39</td>
+          <td class="w150 align-center"><a href="#">编辑</a> |
+          	<a href="javascript:if(confirm('您确定要删除吗?')) window.location = '#';">删除</a></td>
+        </tr>
+                <tr class="hover">
+          <td class="w48 sort">255</td>
+          <td>订单商品退款</td>
+          <td>订单及售后</td>
+          <td class="w150 align-center">2014-02-21 10:44:30</td>
+          <td class="w150 align-center"><a href="#"></a> |
+          	<a href="javascript:if(confirm('您确定要删除吗?')) window.location = '#';">删除</a></td>
+        </tr>
+                <tr class="hover">
+          <td class="w48 sort">255</td>
+          <td>限时折扣说明</td>
+          <td>促销方式</td>
+          <td class="w150 align-center">2014-02-21 10:42:03</td>
+          <td class="w150 align-center"><a href="#">编辑</a> |
+          	<a href="javascript:if(confirm('您确定要删除吗?')) window.location = '#';">删除</a></td>
+        </tr>
+                <tr class="hover">
+          <td class="w48 sort">255</td>
+          <td>商品规格及属性</td>
+          <td>商品管理</td>
+          <td class="w150 align-center">2014-02-21 10:41:21</td>
+          <td class="w150 align-center"><a href="#">编辑</a> |
+          	<a href="javascript:if(confirm('您确定要删除吗?')) window.location = '#';">删除</a></td>
+        </tr>
+                <tr class="hover">
+          <td class="w48 sort">255</td>
+          <td>商品发布规则</td>
+          <td>规则体系</td>
+          <td class="w150 align-center">2014-02-21 10:39:56</td>
+          <td class="w150 align-center"><a href="#">编辑</a> |
+          	<a href="javascript:if(confirm('您确定要删除吗?')) window.location = '#';">删除</a></td>
+        </tr>
+                      </tbody>
+      <tfoot>
+                <tr class="tfoot">
+          <td colspan="16">
+            <div class="pagination"> <ul><li><span>首页</span></li><li><span>上一页</span></li><li><span class="currentpage">1</span></li><li><span>下一页</span></li><li><span>末页</span></li></ul> </div></td>
+        </tr>
+              </tfoot>
+    </table>
+</div>
+<script type="text/javascript">
+$(function(){
+    $('#ncsubmit').click(function(){
+    	$('#formSearch').submit();
+    });
+});
+</script></body>
+</html>

@@ -16,8 +16,8 @@ import com.shop.service.admin.SiteConfigService;
 import com.shop.tools.FileUpload;
 
 @Controller
-@RequestMapping("admin/config")
-public class SiteConfigController {
+@RequestMapping("admin/config_xxx")
+public class SiteConfigController_XXX {
 	
 	@Autowired
 	SiteConfigService siteConfigService;
