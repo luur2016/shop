@@ -1,0 +1,8 @@
+/target/
+/.project
+/.git/
+/.mvn/
+/bin/
+/target/
+/.cache-main
+/.cache-tests
